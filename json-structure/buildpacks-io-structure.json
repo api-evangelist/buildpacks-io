@@ -1,0 +1,71 @@
+{
+  "structure": "Cloud Native Buildpacks v3",
+  "version": "Buildpack API 0.12 / Platform API 0.15 / Distribution API 0.3",
+  "description": "On-disk and on-image structure of a v3 Cloud Native Buildpacks build. Describes the canonical artifacts a buildpack, builder, lifecycle, and produced OCI image carry, drawn directly from buildpacks/spec.",
+  "filesystem": {
+    "buildpack_root": {
+      "buildpack.toml": "Buildpack descriptor — api, [buildpack], [[order]], [[targets]], [stacks] (deprecated), [metadata].",
+      "bin/detect": "Required executable invoked during the detect phase. Reads $CNB_PLATFORM_DIR and writes $CNB_BUILD_PLAN_PATH.",
+      "bin/build": "Required executable invoked during the build phase. Reads $CNB_BP_PLAN_PATH, writes layers under $CNB_LAYERS_DIR plus launch.toml/build.toml/store.toml."
+    },
+    "app_root": {
+      "project.toml": "Optional Project Descriptor — [_], [io.buildpacks], [[io.buildpacks.group]], [io.buildpacks.build.env]."
+    },
+    "layers_dir": {
+      "$CNB_LAYERS_DIR/launch.toml": "Processes, labels, slices emitted by the buildpack.",
+      "$CNB_LAYERS_DIR/build.toml": "Unmet requirements emitted by the buildpack.",
+      "$CNB_LAYERS_DIR/store.toml": "Persisted buildpack metadata carried across rebuilds.",
+      "$CNB_LAYERS_DIR/<layer>/": "Contributed layer directory.",
+      "$CNB_LAYERS_DIR/<layer>.toml": "Layer metadata — [types] (launch/build/cache), [metadata].",
+      "$CNB_LAYERS_DIR/<layer>.sbom.{cdx,spdx,syft}.json": "Per-layer SBOM in CycloneDX, SPDX, or Syft format."
+    },
+    "platform_dir": {
+      "$CNB_PLATFORM_DIR/env/": "User-provided environment variables (one file per var).",
+      "$CNB_PLATFORM_DIR/bindings/": "Optional service bindings exposed to detect and build."
+    }
+  },
+  "lifecycle_artifacts": {
+    "group.toml": "Selected buildpack/extension order group.",
+    "plan.toml": "Resolved build plan dependencies.",
+    "order.toml": "Builder-level order of buildpack groups.",
+    "stack.toml": "Run image stack metadata (legacy).",
+    "run.toml": "Run image references and mirrors (Platform API 0.12+).",
+    "builder.toml": "Builder configuration consumed by `pack builder create`.",
+    "metadata.toml": "Build metadata, process definitions.",
+    "report.toml": "Export results — image digests, tags.",
+    "analyzed.toml": "Analysis metadata from previous build.",
+    "project-metadata.toml": "Source and version info propagated to io.buildpacks.project.metadata."
+  },
+  "oci_labels": {
+    "io.buildpacks.build.metadata": "Buildpacks executed, processes declared, launcher info.",
+    "io.buildpacks.lifecycle.metadata": "Layer digests, run image, exec env.",
+    "io.buildpacks.project.metadata": "Source repo, version, project descriptor metadata.",
+    "io.buildpacks.base.maintainer": "Build/run image maintainer.",
+    "io.buildpacks.base.homepage": "Build/run image homepage.",
+    "io.buildpacks.base.distro.name": "Run image distribution name.",
+    "io.buildpacks.base.distro.version": "Run image distribution version.",
+    "io.buildpacks.rebasable": "true when the run image base is ABI-compatible with replacement bases."
+  },
+  "environment": {
+    "build_time": {
+      "CNB_BUILDPACK_DIR": "Buildpack root directory (detect, build).",
+      "CNB_PLATFORM_DIR": "Platform configuration directory (detect, build).",
+      "CNB_LAYERS_DIR": "Buildpack layers directory (build).",
+      "CNB_BUILD_PLAN_PATH": "Path written by detect.",
+      "CNB_BP_PLAN_PATH": "Resolved buildpack plan read at build.",
+      "CNB_EXEC_ENV": "production | test | development.",
+      "CNB_TARGET_OS": "Target OS.",
+      "CNB_TARGET_ARCH": "Target architecture.",
+      "CNB_TARGET_ARCH_VARIANT": "Target architecture variant.",
+      "CNB_TARGET_DISTRO_NAME": "Target distro name.",
+      "CNB_TARGET_DISTRO_VERSION": "Target distro version."
+    },
+    "user_prefixes": {
+      "BP_*": "Buildpack-consumed configuration variables.",
+      "BPL_*": "exec.d / launch-time configuration variables."
+    }
+  },
+  "lifecycle_binaries": [
+    "analyzer", "detector", "restorer", "extender", "builder", "exporter", "creator", "rebaser", "launcher"
+  ]
+}

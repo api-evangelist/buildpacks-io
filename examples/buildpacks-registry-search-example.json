@@ -1,0 +1,16 @@
+{
+  "matches": [
+    {
+      "namespace": "paketo-buildpacks",
+      "name": "nodejs",
+      "description": "A buildpack for building Node.js applications.",
+      "latest_version": "4.5.1"
+    },
+    {
+      "namespace": "heroku",
+      "name": "nodejs",
+      "description": "Heroku Node.js Buildpack.",
+      "latest_version": "3.5.0"
+    }
+  ]
+}

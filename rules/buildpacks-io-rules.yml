@@ -1,0 +1,67 @@
+extends: spectral:oas
+rules:
+  buildpacks-info-license-required:
+    description: Info object must declare a license (CNB ships Apache-2.0).
+    severity: error
+    given: "$.info"
+    then:
+      field: license
+      function: truthy
+
+  buildpacks-info-contact-required:
+    description: Info object must declare contact details pointing to buildpacks.io.
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  buildpacks-operation-summary-title-case:
+    description: Operation summaries must use Title Case.
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-z0-9]*(\\s[A-Z][a-z0-9]*)*)"
+
+  buildpacks-operation-id-camel-case:
+    description: operationId must be camelCase.
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  buildpacks-operation-tags-required:
+    description: Every operation must declare at least one tag.
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: tags
+      function: truthy
+
+  buildpacks-operation-description-required:
+    description: Every operation must include a description.
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: description
+      function: truthy
+
+  buildpacks-version-string-required:
+    description: API version must be a non-empty string (semver or date-tagged).
+    severity: error
+    given: "$.info.version"
+    then:
+      function: truthy
+
+  buildpacks-namespace-path-param:
+    description: Buildpack paths should include a {namespace} path parameter.
+    severity: info
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/buildpacks/\\{namespace\\}/\\{name\\}"

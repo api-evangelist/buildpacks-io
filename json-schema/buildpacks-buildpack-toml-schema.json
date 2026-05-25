@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/buildpacks-io/main/json-schema/buildpacks-buildpack-toml-schema.json",
+  "title": "buildpack.toml",
+  "description": "Schema for the buildpack.toml descriptor required at the root of every Cloud Native Buildpack as defined by the Buildpack API (currently 0.12). Drives detect, build, order resolution, and image labeling.",
+  "type": "object",
+  "required": ["api", "buildpack"],
+  "properties": {
+    "api": {
+      "type": "string",
+      "description": "Buildpack API version this buildpack targets (e.g. 0.12).",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "buildpack": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Reverse-DNS unique id, e.g. paketo-buildpacks/nodejs."
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the buildpack."
+        },
+        "name": {
+          "type": "string"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "clear-env": {
+          "type": "boolean",
+          "description": "If true, the lifecycle clears the user-provided environment before invoking detect/build."
+        },
+        "sbom-formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "application/vnd.cyclonedx+json",
+              "application/spdx+json",
+              "application/vnd.syft+json"
+            ]
+          },
+          "description": "SBOM media types this buildpack can emit (CycloneDX, SPDX, Syft)."
+        },
+        "exec-env": {
+          "type": "array",
+          "items": {"type": "string", "enum": ["production", "test", "development"]}
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "uri": {"type": "string", "format": "uri"}
+            }
+          }
+        }
+      }
+    },
+    "order": {
+      "type": "array",
+      "description": "Composite buildpack ordering groups.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "group": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {"type": "string"},
+                "version": {"type": "string"},
+                "optional": {"type": "boolean"},
+                "exec-env": {"type": "array", "items": {"type": "string"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "description": "OS/arch/distro targets this buildpack supports (Buildpack API >= 0.12).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "os": {"type": "string"},
+          "arch": {"type": "string"},
+          "variant": {"type": "string"},
+          "distros": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "version": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "stacks": {
+      "type": "array",
+      "description": "Deprecated. Use targets. Stacks this buildpack supports (e.g. io.buildpacks.stacks.bionic).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "mixins": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Free-form buildpack-specific metadata table.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,181 @@
+vocabulary:
+  name: Cloud Native Buildpacks Vocabulary
+  description: >-
+    Domain vocabulary for the Cloud Native Buildpacks (CNB) v3 specification —
+    a CNCF Incubating project defining a pluggable, modular contract for
+    transforming application source into OCI images. Covers core concepts
+    (buildpack, builder, lifecycle, stack/target, image extension), the
+    on-disk file contract (buildpack.toml, project.toml, launch.toml,
+    build plan), and the standard OCI image labels stamped by the lifecycle.
+  version: '2026-05-25'
+  terms:
+    - term: Buildpack
+      definition: >-
+        A modular unit that contributes to the build of an application image.
+        A buildpack is a directory containing a buildpack.toml descriptor and
+        two executables — `bin/detect` and `bin/build` — that implement the
+        Buildpack API contract.
+      tags:
+        - Core Concept
+        - Spec
+
+    - term: Builder
+      definition: >-
+        An OCI image that bundles a build image, a set of buildpacks, a
+        lifecycle binary, and an order specification. Builders are the
+        primary distribution unit consumed by platforms and by `pack build`.
+      tags:
+        - Core Concept
+        - Distribution
+
+    - term: Lifecycle
+      definition: >-
+        The reference implementation that orchestrates the phases of a
+        buildpacks build — analyze, detect, restore, build, export — plus
+        rebase and launch at runtime. Distributed as buildpacksio/lifecycle.
+      tags:
+        - Core Concept
+        - Tooling
+
+    - term: Stack
+      definition: >-
+        Legacy concept (deprecated since Platform API 0.12) pairing a build
+        image and a run image with a shared id (e.g. io.buildpacks.stacks.bionic).
+        Replaced by per-buildpack `targets` declarations.
+      tags:
+        - Spec
+        - Deprecated
+
+    - term: Target
+      definition: >-
+        OS/arch/distro tuple a buildpack supports, declared in buildpack.toml
+        and reconciled by the lifecycle against the build image's run.toml.
+        Introduced in Buildpack API 0.12.
+      tags:
+        - Spec
+        - Compatibility
+
+    - term: Image Extension
+      definition: >-
+        A pluggable component that can emit Dockerfile snippets applied to
+        the build or run image before/after the build phase. Extensions
+        share the buildpack contract surface and are specified in
+        image_extension.md.
+      tags:
+        - Spec
+        - Extensibility
+
+    - term: Order
+      definition: >-
+        An ordered list of buildpack groups used during detection to find
+        the first group whose buildpacks all pass detect. Declared in
+        builder.toml and resolved by the detector into a group.toml.
+      tags:
+        - Spec
+        - Detection
+
+    - term: Build Plan
+      definition: >-
+        The provides/requires graph emitted by buildpacks during detect and
+        reconciled by the lifecycle into a final plan.toml. Lets buildpacks
+        cooperate without hard coupling.
+      tags:
+        - Spec
+        - Detection
+
+    - term: Layer
+      definition: >-
+        A directory under $CNB_LAYERS_DIR contributed by a buildpack with a
+        sibling `<layer>.toml` declaring whether the layer is launch, build,
+        and/or cache. Each layer becomes an OCI image layer at export.
+      tags:
+        - Spec
+        - Layering
+
+    - term: Process Type
+      definition: >-
+        A named entrypoint declared in launch.toml (e.g. `web`, `worker`).
+        The launcher selects one process type at runtime; one may be
+        marked `default = true`.
+      tags:
+        - Spec
+        - Runtime
+
+    - term: Pack
+      definition: >-
+        The reference CLI implementing the Platform Interface Specification.
+        Used by app developers (`pack build`), buildpack authors
+        (`pack buildpack new/package`), and operators (`pack builder create`).
+      tags:
+        - Tooling
+        - CLI
+
+    - term: kpack
+      definition: >-
+        A Kubernetes-native platform that turns buildpacks builds into
+        declarative Image and Builder CRDs. Maintained under the
+        buildpacks-community GitHub org.
+      tags:
+        - Tooling
+        - Kubernetes
+
+    - term: libcnb
+      definition: >-
+        Language bindings for the Buildpack and Extension specifications.
+        Available in Go (libcnb), Rust (libcnb-rs), and .NET (libcnb.net).
+      tags:
+        - SDK
+        - Spec
+
+    - term: Buildpack Registry
+      definition: >-
+        The public CNB community registry hosted at registry.buildpacks.io,
+        backed by the buildpacks/registry-index repository. Indexes
+        namespaced buildpacks (e.g. paketo-buildpacks/nodejs).
+      tags:
+        - Distribution
+        - Discovery
+
+    - term: Project Descriptor
+      definition: >-
+        The optional project.toml at the root of an app that declares the
+        builder image, include/exclude globs, buildpack overrides, and
+        build-time env vars. Defined by the project-descriptor extension.
+      tags:
+        - Spec
+        - App Surface
+
+    - term: SBOM
+      definition: >-
+        Software Bill of Materials emitted by buildpacks under
+        $CNB_LAYERS_DIR/<layer>.sbom.{cdx,spdx,syft}.json. The lifecycle
+        aggregates them into the final image's io.buildpacks.build.metadata.
+      tags:
+        - Supply Chain
+        - Security
+
+    - term: io.buildpacks.lifecycle.metadata
+      definition: >-
+        Standard OCI image label stamped by the exporter recording layer
+        digests, run image, and execution environment of the produced image.
+      tags:
+        - OCI
+        - Label
+
+    - term: Rebase
+      definition: >-
+        Lifecycle operation that swaps the run image base layers of an
+        existing app image without rebuilding the app layers. Enables fast
+        OS patching when io.buildpacks.rebasable is true.
+      tags:
+        - Lifecycle
+        - Operations
+
+    - term: Extend
+      definition: >-
+        Lifecycle phase that materializes Dockerfile snippets emitted by
+        image extensions, producing an extended build and/or run image
+        consumed by the builder.
+      tags:
+        - Lifecycle
+        - Extensions

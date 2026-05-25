@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/buildpacks-io/main/json-schema/buildpacks-build-plan-schema.json",
+  "title": "Buildpack Build Plan",
+  "description": "Schema for the build plan written by buildpacks at $CNB_BUILD_PLAN_PATH during the detect phase. The lifecycle's detector reconciles provides/requires across buildpacks in an order group to produce a resolved plan.toml consumed during build.",
+  "type": "object",
+  "properties": {
+    "provides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {"type": "string"}
+        }
+      }
+    },
+    "requires": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {"type": "string"},
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "or": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "provides": {
+            "type": "array",
+            "items": {"$ref": "#/properties/provides/items"}
+          },
+          "requires": {
+            "type": "array",
+            "items": {"$ref": "#/properties/requires/items"}
+          }
+        }
+      }
+    }
+  }
+}

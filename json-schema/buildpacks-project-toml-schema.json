@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/buildpacks-io/main/json-schema/buildpacks-project-toml-schema.json",
+  "title": "project.toml (Project Descriptor)",
+  "description": "Schema for the Cloud Native Buildpacks Project Descriptor (project.toml). Defined by the buildpacks/spec extensions/project-descriptor.md. Lets app authors declare build-time inputs, includes/excludes, environment variables, and the desired builder.",
+  "type": "object",
+  "properties": {
+    "_": {
+      "type": "object",
+      "description": "Project metadata table.",
+      "properties": {
+        "schema-version": {"type": "string"},
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "authors": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "documentation-url": {"type": "string", "format": "uri"},
+        "source-url": {"type": "string", "format": "uri"},
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "uri": {"type": "string", "format": "uri"}
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "io": {
+      "type": "object",
+      "properties": {
+        "buildpacks": {
+          "type": "object",
+          "properties": {
+            "builder": {
+              "type": "string",
+              "description": "OCI image reference of the builder used to build this app."
+            },
+            "include": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Glob patterns whose matches are uploaded to the builder."
+            },
+            "exclude": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Glob patterns whose matches are NOT uploaded to the builder."
+            },
+            "group": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/BuildpackEntry"}
+            },
+            "pre": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "array",
+                  "items": {"$ref": "#/$defs/BuildpackEntry"}
+                }
+              }
+            },
+            "post": {
+              "type": "object",
+              "properties": {
+                "group": {
+                  "type": "array",
+                  "items": {"$ref": "#/$defs/BuildpackEntry"}
+                }
+              }
+            },
+            "build": {
+              "type": "object",
+              "properties": {
+                "env": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["name", "value"],
+                    "properties": {
+                      "name": {"type": "string"},
+                      "value": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "BuildpackEntry": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "version": {"type": "string"},
+        "uri": {"type": "string"},
+        "script": {
+          "type": "object",
+          "properties": {
+            "api": {"type": "string"},
+            "shell": {"type": "string"},
+            "inline": {"type": "string"}
+          }
+        }
+      }
+    }
+  }
+}
