@@ -119,9 +119,9 @@ apis:
       - url: openapi/buildpacks-registry-api-openapi.yml
         type: OpenAPI
       - url: examples/buildpacks-registry-search-example.json
-        type: Example
+        type: Examples
       - url: examples/buildpacks-registry-version-example.json
-        type: Example
+        type: Examples
     description: >-
       The Buildpack Registry extension specifies the community discovery surface — namespaced buildpack identifiers
       (e.g. paketo-buildpacks/nodejs), the registry-index GitHub repository as the source of truth, and the HTTP API
@@ -194,7 +194,7 @@ common:
   - url: https://github.com/buildpacks/community/blob/main/GOVERNANCE.md
     type: Governance
   - url: https://github.com/buildpacks/community/blob/main/ROADMAP.md
-    type: Roadmap
+    type: RoadMap
   - url: https://github.com/buildpacks/community/blob/main/TEAMS.md
     name: Teams
     type: Documentation
@@ -203,34 +203,34 @@ common:
     type: CaseStudies
   - url: https://github.com/buildpacks/pack
     name: pack CLI
-    type: Tool
+    type: Tools
   - url: https://github.com/buildpacks/lifecycle
     name: lifecycle
-    type: Tool
+    type: Tools
   - url: https://hub.docker.com/r/buildpacksio/lifecycle
     name: buildpacksio/lifecycle Docker image
     type: ContainerImage
   - url: https://github.com/buildpacks/libcnb
     name: libcnb (Go)
-    type: SDK
+    type: SDKs
   - url: https://github.com/buildpacks/libcnb-rs
     name: libcnb (Rust)
-    type: SDK
+    type: SDKs
   - url: https://github.com/buildpacks-community/libcnb.net
     name: libcnb (.NET)
-    type: SDK
+    type: SDKs
   - url: https://github.com/buildpacks/samples
     name: Samples
     type: CodeExamples
   - url: https://github.com/buildpacks/github-actions
     name: GitHub Actions for Buildpacks
-    type: Tool
+    type: Tools
   - url: https://github.com/buildpacks/pack-orb
     name: pack CircleCI Orb
-    type: Tool
+    type: Tools
   - url: https://github.com/buildpacks-community/kpack
     name: kpack (Kubernetes)
-    type: Tool
+    type: Tools
   - url: https://github.com/buildpacks/registry-index
     name: Registry Index
     type: Repository
@@ -250,12 +250,12 @@ common:
     type: MailingList
   - url: https://slack.cncf.io
     name: CNCF Slack (#buildpacks)
-    type: Forum
+    type: Forums
   - url: https://github.com/buildpacks/community/discussions
-    type: Forum
+    type: Forums
   - url: https://stackoverflow.com/questions/tagged/buildpack
     name: Stack Overflow — buildpack tag
-    type: Forum
+    type: Forums
   - type: Features
     data:
       - Buildpack API 0.12 — modular detect/build contract producing OCI layers without Dockerfiles
