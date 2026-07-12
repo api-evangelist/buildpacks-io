@@ -142,6 +142,8 @@ apis:
       and build under $CNB_PLATFORM_DIR/bindings/. Aligns with the Service Binding Specification for Kubernetes and lets
       buildpacks discover databases, message brokers, and CA bundles without provider coupling.
 common:
+  - type: DomainSecurity
+    url: security/buildpacks-io-domain-security.yml
   - url: https://buildpacks.io
     type: Portal
   - url: https://buildpacks.io/docs/
