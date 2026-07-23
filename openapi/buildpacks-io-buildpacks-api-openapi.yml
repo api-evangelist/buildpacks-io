@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: Cloud Native Registry Buildpacks API
+  description: 'The Buildpack Registry API serves the registry-index for the Cloud Native Buildpacks community registry. It exposes endpoints for searching the registry by keyword and for retrieving namespaced buildpack version metadata. The registry is backed by the `buildpacks/registry-index` GitHub repository and is consumed by the `pack` CLI (`pack buildpack pull/register/yank`) and by buildpack authors who publish to the public CNB registry.
+
+    '
+  version: '1.0'
+  contact:
+    name: Cloud Native Buildpacks
+    url: https://buildpacks.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://registry.buildpacks.io/api/v1
+  description: Public Buildpack Registry
+tags:
+- name: Buildpacks
+  description: Retrieve buildpack version metadata
+paths:
+  /buildpacks/{namespace}/{name}:
+    get:
+      summary: List Buildpack Versions
+      description: 'Return every published version of a single namespaced buildpack (e.g. `paketo-buildpacks/nodejs`).
+
+        '
+      operationId: listBuildpackVersions
+      tags:
+      - Buildpacks
+      parameters:
+      - name: namespace
+        in: path
+        required: true
+        description: The buildpack namespace (registry account).
+        schema:
+          type: string
+          example: paketo-buildpacks
+      - name: name
+        in: path
+        required: true
+        description: The buildpack name within the namespace.
+        schema:
+          type: string
+          example: nodejs
+      responses:
+        '200':
+          description: List of versions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  latest:
+                    $ref: '#/components/schemas/BuildpackVersion'
+                  versions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BuildpackVersion'
+        '404':
+          description: Buildpack not found
+  /buildpacks/{namespace}/{name}/{version}:
+    get:
+      summary: Get Buildpack Version
+      description: 'Return registry metadata for a specific version of a namespaced buildpack, including the OCI image reference, yanked state, and supported stacks/targets.
+
+        '
+      operationId: getBuildpackVersion
+      tags:
+      - Buildpacks
+      parameters:
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+          example: paketo-buildpacks
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          example: nodejs
+      - name: version
+        in: path
+        required: true
+        description: Semantic version of the buildpack.
+        schema:
+          type: string
+          example: 4.5.1
+      responses:
+        '200':
+          description: Buildpack version metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildpackVersion'
+        '404':
+          description: Buildpack version not found
+components:
+  schemas:
+    BuildpackVersion:
+      type: object
+      description: Full record for one published buildpack version.
+      properties:
+        id:
+          type: string
+          description: Stable internal id of this version row in the registry-index.
+        namespace:
+          type: string
+          example: paketo-buildpacks
+        name:
+          type: string
+          example: nodejs
+        version:
+          type: string
+          example: 4.5.1
+        yanked:
+          type: boolean
+          description: True when the version has been retracted via `pack buildpack yank`.
+        addr:
+          type: string
+          description: 'OCI image reference for the buildpack artifact, including digest, for example `docker.io/paketobuildpacks/nodejs@sha256:...`.
+
+            '
+        description:
+          type: string
+        homepage:
+          type: string
+          format: uri
+        licenses:
+          type: array
+          items:
+            type: string
+        stacks:
+          type: array
+          description: Stacks this version declares support for (deprecated in favor of targets in buildpack API 0.12).
+          items:
+            type: string
+        targets:
+          type: array
+          description: Targets this version declares support for (buildpack API >= 0.12).
+          items:
+            type: object
+            properties:
+              os:
+                type: string
+              arch:
+                type: string
+              variant:
+                type: string
+              distros:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    version:
+                      type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time

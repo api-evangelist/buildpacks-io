@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: Cloud Native Registry Buildpacks Search API
+  description: 'The Buildpack Registry API serves the registry-index for the Cloud Native Buildpacks community registry. It exposes endpoints for searching the registry by keyword and for retrieving namespaced buildpack version metadata. The registry is backed by the `buildpacks/registry-index` GitHub repository and is consumed by the `pack` CLI (`pack buildpack pull/register/yank`) and by buildpack authors who publish to the public CNB registry.
+
+    '
+  version: '1.0'
+  contact:
+    name: Cloud Native Buildpacks
+    url: https://buildpacks.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://registry.buildpacks.io/api/v1
+  description: Public Buildpack Registry
+tags:
+- name: Search
+  description: Search the buildpack registry by keyword
+paths:
+  /search:
+    get:
+      summary: Search Buildpacks
+      description: 'Search the registry-index for buildpacks whose id, namespace, description, or keywords match the supplied terms.
+
+        '
+      operationId: searchBuildpacks
+      tags:
+      - Search
+      parameters:
+      - name: matches
+        in: query
+        required: true
+        description: One or more space-separated keywords to match.
+        schema:
+          type: string
+          example: nodejs
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BuildpackSummary'
+                required:
+                - matches
+components:
+  schemas:
+    BuildpackSummary:
+      type: object
+      description: Short-form match returned by /search.
+      properties:
+        namespace:
+          type: string
+          description: Registry namespace.
+          example: paketo-buildpacks
+        name:
+          type: string
+          description: Buildpack name within the namespace.
+          example: nodejs
+        description:
+          type: string
+        latest_version:
+          type: string
+          example: 4.5.1
