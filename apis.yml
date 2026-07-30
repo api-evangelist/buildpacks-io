@@ -1,146 +1,176 @@
 aid: buildpacks-io
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/buildpacks-io.png
 url: https://raw.githubusercontent.com/api-evangelist/buildpacks-io/refs/heads/main/apis.yml
 apis:
-  - aid: buildpacks-io:buildpack-spec
-    name: Buildpack Specification
-    tags:
-      - Cloud Native Buildpacks
-      - Buildpack API
-      - Specification
-      - CNCF
-    humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/buildpack.md
-        type: Documentation
-      - url: https://github.com/buildpacks/spec
-        type: Repository
-      - url: json-schema/buildpacks-buildpack-toml-schema.json
-        type: JSONSchema
-      - url: json-schema/buildpacks-build-plan-schema.json
-        type: JSONSchema
-      - url: json-schema/buildpacks-launch-toml-schema.json
-        type: JSONSchema
-      - url: json-structure/buildpacks-io-structure.json
-        type: JSONStructure
-      - url: json-ld/buildpacks-io-context.jsonld
-        type: JSONLD
-    description: >-
-      The Buildpack API (currently 0.12) defines the contract between an individual buildpack and the lifecycle. It
-      specifies the on-disk layout of a buildpack (buildpack.toml, bin/detect, bin/build), the build plan
-      provides/requires graph, layer types (launch/build/cache), launch.toml and build.toml outputs, target declarations
-      (os/arch/distros), SBOM emission, and the CNB_* environment variable contract.
-  - aid: buildpacks-io:platform-spec
-    name: Platform Specification
-    tags:
-      - Cloud Native Buildpacks
-      - Platform API
-      - Specification
-      - CNCF
-    humanURL: https://github.com/buildpacks/spec/blob/main/platform.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/platform.md
-        type: Documentation
-      - url: https://github.com/buildpacks/spec
-        type: Repository
-      - url: json-structure/buildpacks-io-structure.json
-        type: JSONStructure
-    description: >-
-      The Platform API (currently 0.15) defines how platforms (pack, kpack, Tekton Pipelines, GitLab Auto DevOps,
-      CircleCI Orb, Project Piper) orchestrate the lifecycle. Specifies the lifecycle binary surface (analyzer,
-      detector, restorer, extender, builder, exporter, creator, rebaser, launcher), the TOML files exchanged on disk
-      (group.toml, plan.toml, order.toml, run.toml, metadata.toml, report.toml, analyzed.toml, project-metadata.toml),
-      the standard io.buildpacks.* OCI image labels, and runtime process selection.
-  - aid: buildpacks-io:distribution-spec
-    name: Distribution Specification
-    tags:
-      - Cloud Native Buildpacks
-      - Distribution
-      - OCI
-      - CNCF
-    humanURL: https://github.com/buildpacks/spec/blob/main/distribution.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/distribution.md
-        type: Documentation
-      - url: https://github.com/buildpacks/spec
-        type: Repository
-    description: >-
-      The Distribution API (currently 0.3) defines how buildpacks, extensions, and builders are packaged as OCI
-      artifacts and published to OCI registries. Covers labels (io.buildpacks.buildpack.api,
-      io.buildpacks.buildpack.layers), multi-buildpack OCI artifacts, and image extension distribution.
-  - aid: buildpacks-io:image-extension-spec
-    name: Image Extension Specification
-    tags:
-      - Cloud Native Buildpacks
-      - Image Extension
-      - Dockerfile
-      - Specification
-    humanURL: https://github.com/buildpacks/spec/blob/main/image_extension.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/image_extension.md
-        type: Documentation
-      - url: https://github.com/buildpacks/spec
-        type: Repository
-    description: >-
-      Image extensions emit Dockerfile snippets applied by the `extender` lifecycle binary to the build and/or run
-      image. Share the buildpack surface (extension.toml, bin/detect, bin/generate) but produce Dockerfile output
-      instead of layers — enabling base-image customization (apt packages, native libs) inside a buildpacks workflow.
-  - aid: buildpacks-io:project-descriptor-spec
-    name: Project Descriptor (project.toml)
-    tags:
-      - Cloud Native Buildpacks
-      - Project Descriptor
-      - App Surface
-    humanURL: https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md
-        type: Documentation
-      - url: json-schema/buildpacks-project-toml-schema.json
-        type: JSONSchema
-    description: >-
-      The Project Descriptor extension defines project.toml — the optional app-root file letting developers declare
-      their builder image, include/exclude globs, buildpack overrides (pre/group/post), and build-time env vars. Read by
-      `pack build` and other platforms before invoking the lifecycle.
-  - aid: buildpacks-io:buildpack-registry-spec
-    name: Buildpack Registry Extension
-    tags:
-      - Cloud Native Buildpacks
-      - Registry
-      - Discovery
-    humanURL: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
-        type: Documentation
-      - url: https://registry.buildpacks.io
-        type: Portal
-      - url: https://github.com/buildpacks/registry-index
-        type: Repository
-      - url: https://github.com/buildpacks/registry-api
-        type: Repository
-      - url: openapi/buildpacks-registry-api-openapi.yml
-        type: OpenAPI
-      - url: examples/buildpacks-registry-search-example.json
-        type: Examples
-      - url: examples/buildpacks-registry-version-example.json
-        type: Examples
-    description: >-
-      The Buildpack Registry extension specifies the community discovery surface — namespaced buildpack identifiers
-      (e.g. paketo-buildpacks/nodejs), the registry-index GitHub repository as the source of truth, and the HTTP API
-      exposed at registry.buildpacks.io/api/v1 (search and per-buildpack version lookup). Backed by the `pack buildpack
-      register/yank/pull` commands.
-  - aid: buildpacks-io:service-bindings-spec
-    name: Service Bindings Extension
-    tags:
-      - Cloud Native Buildpacks
-      - Service Bindings
-      - Kubernetes
-    humanURL: https://github.com/buildpacks/spec/blob/main/extensions/bindings.md
-    properties:
-      - url: https://github.com/buildpacks/spec/blob/main/extensions/bindings.md
-        type: Documentation
-    description: >-
-      The Service Bindings extension specifies how external service credentials and configuration are surfaced to detect
-      and build under $CNB_PLATFORM_DIR/bindings/. Aligns with the Service Binding Specification for Kubernetes and lets
-      buildpacks discover databases, message brokers, and CA bundles without provider coupling.
+- aid: buildpacks-io:buildpack-spec
+  name: Buildpack Specification
+  tags:
+  - Cloud Native Buildpacks
+  - Buildpack API
+  - Specification
+  - CNCF
+  humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/buildpack.md
+    type: Documentation
+  - url: https://github.com/buildpacks/spec
+    type: Repository
+  - url: json-schema/buildpacks-buildpack-toml-schema.json
+    type: JSONSchema
+  - url: json-schema/buildpacks-build-plan-schema.json
+    type: JSONSchema
+  - url: json-schema/buildpacks-launch-toml-schema.json
+    type: JSONSchema
+  - url: json-structure/buildpacks-io-structure.json
+    type: JSONStructure
+  - url: json-ld/buildpacks-io-context.jsonld
+    type: JSONLD
+  description: >-
+    The Buildpack API (currently 0.12) defines the contract between an individual buildpack and the lifecycle.
+    It specifies the on-disk layout of a buildpack (buildpack.toml, bin/detect, bin/build), the build
+    plan provides/requires graph, layer types (launch/build/cache), launch.toml and build.toml outputs,
+    target declarations (os/arch/distros), SBOM emission, and the CNB_* environment variable contract.
+- aid: buildpacks-io:platform-spec
+  name: Platform Specification
+  tags:
+  - Cloud Native Buildpacks
+  - Platform API
+  - Specification
+  - CNCF
+  humanURL: https://github.com/buildpacks/spec/blob/main/platform.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/platform.md
+    type: Documentation
+  - url: https://github.com/buildpacks/spec
+    type: Repository
+  - url: json-structure/buildpacks-io-structure.json
+    type: JSONStructure
+  description: >-
+    The Platform API (currently 0.15) defines how platforms (pack, kpack, Tekton Pipelines, GitLab Auto
+    DevOps, CircleCI Orb, Project Piper) orchestrate the lifecycle. Specifies the lifecycle binary surface
+    (analyzer, detector, restorer, extender, builder, exporter, creator, rebaser, launcher), the TOML
+    files exchanged on disk (group.toml, plan.toml, order.toml, run.toml, metadata.toml, report.toml,
+    analyzed.toml, project-metadata.toml), the standard io.buildpacks.* OCI image labels, and runtime
+    process selection.
+- aid: buildpacks-io:distribution-spec
+  name: Distribution Specification
+  tags:
+  - Cloud Native Buildpacks
+  - Distribution
+  - OCI
+  - CNCF
+  humanURL: https://github.com/buildpacks/spec/blob/main/distribution.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/distribution.md
+    type: Documentation
+  - url: https://github.com/buildpacks/spec
+    type: Repository
+  description: >-
+    The Distribution API (currently 0.3) defines how buildpacks, extensions, and builders are packaged
+    as OCI artifacts and published to OCI registries. Covers labels (io.buildpacks.buildpack.api, io.buildpacks.buildpack.layers),
+    multi-buildpack OCI artifacts, and image extension distribution.
+- aid: buildpacks-io:image-extension-spec
+  name: Image Extension Specification
+  tags:
+  - Cloud Native Buildpacks
+  - Image Extension
+  - Dockerfile
+  - Specification
+  humanURL: https://github.com/buildpacks/spec/blob/main/image_extension.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/image_extension.md
+    type: Documentation
+  - url: https://github.com/buildpacks/spec
+    type: Repository
+  description: >-
+    Image extensions emit Dockerfile snippets applied by the `extender` lifecycle binary to the build
+    and/or run image. Share the buildpack surface (extension.toml, bin/detect, bin/generate) but produce
+    Dockerfile output instead of layers — enabling base-image customization (apt packages, native libs)
+    inside a buildpacks workflow.
+- aid: buildpacks-io:project-descriptor-spec
+  name: Project Descriptor (project.toml)
+  tags:
+  - Cloud Native Buildpacks
+  - Project Descriptor
+  - App Surface
+  humanURL: https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md
+    type: Documentation
+  - url: json-schema/buildpacks-project-toml-schema.json
+    type: JSONSchema
+  description: >-
+    The Project Descriptor extension defines project.toml — the optional app-root file letting developers
+    declare their builder image, include/exclude globs, buildpack overrides (pre/group/post), and build-time
+    env vars. Read by `pack build` and other platforms before invoking the lifecycle.
+- aid: buildpacks-io:service-bindings-spec
+  name: Service Bindings Extension
+  tags:
+  - Cloud Native Buildpacks
+  - Service Bindings
+  - Kubernetes
+  humanURL: https://github.com/buildpacks/spec/blob/main/extensions/bindings.md
+  properties:
+  - url: https://github.com/buildpacks/spec/blob/main/extensions/bindings.md
+    type: Documentation
+  description: >-
+    The Service Bindings extension specifies how external service credentials and configuration are surfaced
+    to detect and build under $CNB_PLATFORM_DIR/bindings/. Aligns with the Service Binding Specification
+    for Kubernetes and lets buildpacks discover databases, message brokers, and CA bundles without provider
+    coupling.
+- aid: buildpacks-io:buildpacks-io-buildpacks-api
+  name: buildpacks-io Buildpacks API
+  description: Retrieve buildpack version metadata
+  humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
+  tags:
+  - Buildpacks
+  properties:
+  - type: OpenAPI
+    url: openapi/buildpacks-io-buildpacks-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+  - type: Portal
+    url: https://registry.buildpacks.io
+  - type: Repository
+    url: https://github.com/buildpacks/registry-index
+  - type: Repository
+    url: https://github.com/buildpacks/registry-api
+  - type: Examples
+    url: examples/buildpacks-registry-search-example.json
+  - type: Examples
+    url: examples/buildpacks-registry-version-example.json
+- aid: buildpacks-io:buildpacks-io-search-api
+  name: buildpacks-io Search API
+  description: Search the buildpack registry by keyword
+  humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/buildpacks-io-search-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+  - type: Portal
+    url: https://registry.buildpacks.io
+  - type: Repository
+    url: https://github.com/buildpacks/registry-index
+  - type: Repository
+    url: https://github.com/buildpacks/registry-api
+  - type: Examples
+    url: examples/buildpacks-registry-search-example.json
+  - type: Examples
+    url: examples/buildpacks-registry-version-example.json
 common:
   - type: AgenticAccess
     url: agentic-access/buildpacks-io-agentic-access.yml
