@@ -1,0 +1,16 @@
+{
+  "provider": "buildpacks-io",
+  "sources": [
+    "buildpacks-io-buildpacks-api-openapi.yml",
+    "buildpacks-io-search-api-openapi.yml"
+  ],
+  "outputs": [
+    "buildpacks-io-buildpacks-api-openapi.yml",
+    "buildpacks-io-search-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
