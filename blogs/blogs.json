@@ -10,12 +10,9 @@
     },
     {
       "source": "https://medium.com/buildpacks",
-      "feed_url": "https://medium.com/feed/buildpacks",
-      "title": "",
-      "saved": 0,
-      "method": "discovered"
+      "error": "HTTPError"
     }
   ],
   "post_count": 10,
-  "fetched": "2026-08-01T15:49:00Z"
+  "fetched": "2026-08-06T14:08:46Z"
 }
