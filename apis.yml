@@ -172,6 +172,12 @@ apis:
   - type: Examples
     url: examples/buildpacks-registry-version-example.json
 common:
+  - type: IssueTracker
+    url: https://github.com/buildpacks/registry-index/issues
+  - type: CodeOfConduct
+    url: https://github.com/buildpacks/.github/blob/main/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/buildpacks/.github/blob/main/CONTRIBUTING.md
   - type: AgenticAccess
     url: agentic-access/buildpacks-io-agentic-access.yml
   - type: DomainSecurity
