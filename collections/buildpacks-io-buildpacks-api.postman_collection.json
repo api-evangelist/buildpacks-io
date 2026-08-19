@@ -1,0 +1,356 @@
+{
+  "item": [
+    {
+      "id": "a6dadc47-fc8f-4a19-a2ad-b92404495ed2",
+      "name": "Buildpacks",
+      "description": {
+        "content": "Retrieve buildpack version metadata",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "107a317e-3b87-4dee-a10c-d8c068cb193b",
+          "name": "List Buildpack Versions",
+          "request": {
+            "name": "List Buildpack Versions",
+            "description": {
+              "content": "Return every published version of a single namespaced buildpack (e.g. `paketo-buildpacks/nodejs`).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buildpacks",
+                ":namespace",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) The buildpack namespace (registry account)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) The buildpack name within the namespace."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3abca4fa-2632-470a-b0d7-ebdf5acdbebd",
+              "name": "List of versions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buildpacks",
+                    ":namespace",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) The buildpack namespace (registry account)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The buildpack name within the namespace."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"latest\": {\n    \"id\": \"string\",\n    \"namespace\": \"paketo-buildpacks\",\n    \"name\": \"nodejs\",\n    \"version\": \"4.5.1\",\n    \"yanked\": false,\n    \"addr\": \"string\",\n    \"description\": \"string\",\n    \"homepage\": \"https://WvtJSeUkKpBWsGhfzYPyeGSktML.dsxxY\",\n    \"licenses\": [\n      \"string\",\n      \"string\"\n    ],\n    \"stacks\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targets\": [\n      {\n        \"os\": \"string\",\n        \"arch\": \"string\",\n        \"variant\": \"string\",\n        \"distros\": [\n          {\n            \"name\": \"string\",\n            \"version\": \"string\"\n          },\n          {\n            \"name\": \"string\",\n            \"version\": \"string\"\n          }\n        ]\n      },\n      {\n        \"os\": \"string\",\n        \"arch\": \"string\",\n        \"variant\": \"string\",\n        \"distros\": [\n          {\n            \"name\": \"string\",\n            \"version\": \"string\"\n          },\n          {\n            \"name\": \"string\",\n            \"version\": \"string\"\n          }\n        ]\n      }\n    ],\n    \"created_at\": \"1956-05-25T13:17:22.067Z\",\n    \"updated_at\": \"1952-09-04T15:38:46.104Z\"\n  },\n  \"versions\": [\n    {\n      \"id\": \"string\",\n      \"namespace\": \"paketo-buildpacks\",\n      \"name\": \"nodejs\",\n      \"version\": \"4.5.1\",\n      \"yanked\": false,\n      \"addr\": \"string\",\n      \"description\": \"string\",\n      \"homepage\": \"https://PUnNfCLyxdmHerNLvre.yvrpBKANLMr4NKjv8gTCDBkBvxv2BnDATjx0A5W8cHbxAYEDN3B\",\n      \"licenses\": [\n        \"string\",\n        \"string\"\n      ],\n      \"stacks\": [\n        \"string\",\n        \"string\"\n      ],\n      \"targets\": [\n        {\n          \"os\": \"string\",\n          \"arch\": \"string\",\n          \"variant\": \"string\",\n          \"distros\": [\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            },\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            }\n          ]\n        },\n        {\n          \"os\": \"string\",\n          \"arch\": \"string\",\n          \"variant\": \"string\",\n          \"distros\": [\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            },\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            }\n          ]\n        }\n      ],\n      \"created_at\": \"2010-05-12T10:35:35.235Z\",\n      \"updated_at\": \"2000-01-13T17:34:05.479Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"namespace\": \"paketo-buildpacks\",\n      \"name\": \"nodejs\",\n      \"version\": \"4.5.1\",\n      \"yanked\": true,\n      \"addr\": \"string\",\n      \"description\": \"string\",\n      \"homepage\": \"http://XwdgxIdnIRGdy.tbWuOl+YjeL7jOHiQJXloyxV-A12pDfq+5f3PqvXakdFaHDv..mH5YkGHQhy,NzxMobe\",\n      \"licenses\": [\n        \"string\",\n        \"string\"\n      ],\n      \"stacks\": [\n        \"string\",\n        \"string\"\n      ],\n      \"targets\": [\n        {\n          \"os\": \"string\",\n          \"arch\": \"string\",\n          \"variant\": \"string\",\n          \"distros\": [\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            },\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            }\n          ]\n        },\n        {\n          \"os\": \"string\",\n          \"arch\": \"string\",\n          \"variant\": \"string\",\n          \"distros\": [\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            },\n            {\n              \"name\": \"string\",\n              \"version\": \"string\"\n            }\n          ]\n        }\n      ],\n      \"created_at\": \"1958-02-20T05:29:53.615Z\",\n      \"updated_at\": \"1953-11-16T15:52:57.689Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4327e006-2520-4341-a15d-dc6884055d8e",
+              "name": "Buildpack not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buildpacks",
+                    ":namespace",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) The buildpack namespace (registry account)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) The buildpack name within the namespace."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b02fc895-0423-488b-a98e-cb1bc9a7445b",
+          "name": "Get Buildpack Version",
+          "request": {
+            "name": "Get Buildpack Version",
+            "description": {
+              "content": "Return registry metadata for a specific version of a namespaced buildpack, including the OCI image reference, yanked state, and supported stacks/targets.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buildpacks",
+                ":namespace",
+                ":name",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version",
+                  "description": "(Required) Semantic version of the buildpack."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "288dfb7d-e092-4a71-9f94-25a557c3f194",
+              "name": "Buildpack version metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buildpacks",
+                    ":namespace",
+                    ":name",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) Semantic version of the buildpack."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"namespace\": \"paketo-buildpacks\",\n  \"name\": \"nodejs\",\n  \"version\": \"4.5.1\",\n  \"yanked\": true,\n  \"addr\": \"string\",\n  \"description\": \"string\",\n  \"homepage\": \"https://brcmnvVPbgtyH.blVZJIzzdRSKog-ZFf-0OQesTIoL2By.FERype6aIbS6Ko775H2pM.eg9z\",\n  \"licenses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"stacks\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targets\": [\n    {\n      \"os\": \"string\",\n      \"arch\": \"string\",\n      \"variant\": \"string\",\n      \"distros\": [\n        {\n          \"name\": \"string\",\n          \"version\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"version\": \"string\"\n        }\n      ]\n    },\n    {\n      \"os\": \"string\",\n      \"arch\": \"string\",\n      \"variant\": \"string\",\n      \"distros\": [\n        {\n          \"name\": \"string\",\n          \"version\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"version\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"created_at\": \"1957-06-06T02:57:08.607Z\",\n  \"updated_at\": \"1959-11-21T18:03:53.952Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad86e27f-d747-4b82-823b-37131f91fe6b",
+              "name": "Buildpack version not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buildpacks",
+                    ":namespace",
+                    ":name",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) Semantic version of the buildpack."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://registry.buildpacks.io/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "804ac42b-2cab-4a69-999f-3f80266c30cc",
+    "name": "Cloud Native Registry Buildpacks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Buildpack Registry API serves the registry-index for the Cloud Native Buildpacks community registry. It exposes endpoints for searching the registry by keyword and for retrieving namespaced buildpack version metadata. The registry is backed by the `buildpacks/registry-index` GitHub repository and is consumed by the `pack` CLI (`pack buildpack pull/register/yank`) and by buildpack authors who publish to the public CNB registry.\n\n\nContact Support:\n Name: Cloud Native Buildpacks",
+      "type": "text/plain"
+    }
+  }
+}

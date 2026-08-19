@@ -1,0 +1,114 @@
+{
+  "item": [
+    {
+      "id": "1941e681-9cb0-4233-89e5-a5a02904a972",
+      "name": "Search",
+      "description": {
+        "content": "Search the buildpack registry by keyword",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3dabff21-19d5-46f2-bac5-af9094eca5b9",
+          "name": "Search Buildpacks",
+          "request": {
+            "name": "Search Buildpacks",
+            "description": {
+              "content": "Search the registry-index for buildpacks whose id, namespace, description, or keywords match the supplied terms.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "matches",
+                  "value": "<string>",
+                  "description": "(Required) One or more space-separated keywords to match."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b62ceed-15d7-4de9-a01f-d1855357d26a",
+              "name": "Search results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matches",
+                      "value": "nodejs"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"matches\": [\n    {\n      \"namespace\": \"paketo-buildpacks\",\n      \"name\": \"nodejs\",\n      \"description\": \"string\",\n      \"latest_version\": \"4.5.1\"\n    },\n    {\n      \"namespace\": \"paketo-buildpacks\",\n      \"name\": \"nodejs\",\n      \"description\": \"string\",\n      \"latest_version\": \"4.5.1\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://registry.buildpacks.io/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "04b57ed5-06db-4f3c-bf42-f77a86d1d93e",
+    "name": "Cloud Native Registry Buildpacks Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Buildpack Registry API serves the registry-index for the Cloud Native Buildpacks community registry. It exposes endpoints for searching the registry by keyword and for retrieving namespaced buildpack version metadata. The registry is backed by the `buildpacks/registry-index` GitHub repository and is consumed by the `pack` CLI (`pack buildpack pull/register/yank`) and by buildpack authors who publish to the public CNB registry.\n\n\nContact Support:\n Name: Cloud Native Buildpacks",
+      "type": "text/plain"
+    }
+  }
+}

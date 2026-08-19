@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cloud Native Registry Buildpacks Search API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Buildpacks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://registry.buildpacks.io/api/v1/search",
+            "params": [
+              {
+                "name": "matches",
+                "value": "",
+                "type": "query",
+                "description": "One or more space-separated keywords to match."
+              }
+            ]
+          },
+          "docs": "Search the registry-index for buildpacks whose id, namespace, description, or keywords match the supplied terms.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

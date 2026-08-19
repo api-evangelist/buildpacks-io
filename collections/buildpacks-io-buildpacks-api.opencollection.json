@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cloud Native Registry Buildpacks API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Buildpacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Buildpack Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://registry.buildpacks.io/api/v1/buildpacks/:namespace/:name",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path",
+                "description": "The buildpack namespace (registry account)."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The buildpack name within the namespace."
+              }
+            ]
+          },
+          "docs": "Return every published version of a single namespaced buildpack (e.g. `paketo-buildpacks/nodejs`).\n"
+        },
+        {
+          "info": {
+            "name": "Get Buildpack Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://registry.buildpacks.io/api/v1/buildpacks/:namespace/:name/:version",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Semantic version of the buildpack."
+              }
+            ]
+          },
+          "docs": "Return registry metadata for a specific version of a namespaced buildpack, including the OCI image reference, yanked state, and supported stacks/targets.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
