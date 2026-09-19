@@ -145,7 +145,8 @@ apis:
 - aid: buildpacks-io:buildpacks-io-buildpacks-api
   name: buildpacks-io Buildpacks API
   description: Retrieve buildpack version metadata
-  humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
+  humanURL: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+  baseURL: https://registry.buildpacks.io/api/v1
   tags:
   - Buildpacks
   properties:
@@ -163,10 +164,18 @@ apis:
     url: examples/buildpacks-registry-search-example.json
   - type: Examples
     url: examples/buildpacks-registry-version-example.json
+  - type: Examples
+    url: examples/buildpacks-registry-versions-list-example.json
+  - type: Overlay
+    url: overlays/buildpacks-io-buildpacks-api-overlay.yaml
+  - type: APIReference
+    url: https://github.com/buildpacks/registry-api
+    name: Registry API endpoint reference
 - aid: buildpacks-io:buildpacks-io-search-api
   name: buildpacks-io Search API
   description: Search the buildpack registry by keyword
-  humanURL: https://github.com/buildpacks/spec/blob/main/buildpack.md
+  humanURL: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+  baseURL: https://registry.buildpacks.io/api/v1
   tags:
   - Search
   properties:
@@ -184,6 +193,11 @@ apis:
     url: examples/buildpacks-registry-search-example.json
   - type: Examples
     url: examples/buildpacks-registry-version-example.json
+  - type: Overlay
+    url: overlays/buildpacks-io-search-api-overlay.yaml
+  - type: APIReference
+    url: https://github.com/buildpacks/registry-api
+    name: Registry API endpoint reference
 common:
   - type: Website
     url: https://www.buildpacks.io/
@@ -201,7 +215,7 @@ common:
     type: Portal
   - url: https://buildpacks.io/docs/
     type: Documentation
-  - url: https://buildpacks.io/docs/concepts/
+  - url: https://buildpacks.io/docs/for-app-developers/concepts/
     name: Concepts
     type: Documentation
   - url: https://buildpacks.io/docs/for-app-developers/
@@ -221,9 +235,6 @@ common:
     type: GettingStarted
   - url: https://buildpacks.io/community/
     type: Community
-  - url: https://buildpacks.io/releases/
-    name: Releases
-    type: ReleaseNotes
   - url: https://medium.com/buildpacks
     name: Buildpacks on Medium
     type: Blog
@@ -268,12 +279,6 @@ common:
   - url: https://github.com/buildpacks/libcnb
     name: libcnb (Go)
     type: SDKs
-  - url: https://github.com/buildpacks/libcnb-rs
-    name: libcnb (Rust)
-    type: SDKs
-  - url: https://github.com/buildpacks-community/libcnb.net
-    name: libcnb (.NET)
-    type: SDKs
   - url: https://github.com/buildpacks/samples
     name: Samples
     type: CodeExamples
@@ -299,7 +304,7 @@ common:
     name: CNCF DevStats
     type: Analytics
   - url: https://www.cncf.io/projects/buildpacks/
-    name: CNCF Incubating Project Page
+    name: CNCF Graduated Project Page
     type: Documentation
   - url: https://lists.cncf.io/g/cncf-buildpacks
     type: MailingList
@@ -329,14 +334,14 @@ common:
         Standard OCI image labels (io.buildpacks.lifecycle.metadata, io.buildpacks.build.metadata,
         io.buildpacks.project.metadata, io.buildpacks.rebasable)
       - Reference lifecycle distributed as buildpacksio/lifecycle Docker image
-      - Reference CLI `pack` (v0.40.6, May 2026) implementing the Platform Interface Specification
+      - Reference CLI `pack` (v0.40.9, August 2026) implementing the Platform Interface Specification
       - Public community registry at registry.buildpacks.io with `pack buildpack register/pull/yank`
-      - Language bindings via libcnb (Go), libcnb-rs (Rust), and libcnb.net (.NET)
+      - Language bindings via libcnb (Go) and libcnb.rs (Rust, maintained by Heroku at github.com/heroku/libcnb.rs)
       - Kubernetes-native platform via kpack with Image/Builder/Stack CRDs
       - CI integrations — GitHub Actions, CircleCI Orb, GitLab Auto DevOps, Tekton, Project Piper
       - Multi-arch builders (linux/amd64, linux/arm64, windows) selected via target reconciliation
       - Service Bindings extension aligned with the Service Binding Specification for Kubernetes
-      - Vendor-neutral CNCF Incubating project (incubation since 2018-10) with public RFC process
+      - Vendor-neutral CNCF Graduated project (accepted 2018-10-03, incubating 2020-11-18, graduated 2026-07-17) with public RFC process
     sources:
       - https://buildpacks.io/
       - https://buildpacks.io/docs/
@@ -351,11 +356,90 @@ common:
     type: SpectralRules
   - url: json-ld/buildpacks-io-context.jsonld
     type: JSONLD
+  - url: packages/buildpacks-io-packages.yml
+    type: Packages
+  - url: packages/buildpacks-io-packages.yml
+    type: SDKs
+  - url: cli/buildpacks-io-cli.yml
+    type: CLI
+  - url: llms/buildpacks-io-llms.txt
+    type: LLMsTxt
+  - url: mcp/buildpacks-io-mcp.yml
+    type: X-MCPServerCandidate
+    name: Candidate MCP tool surface derived from the registry OpenAPIs — no server is deployed
+  - url: skills/_index.yml
+    type: AgentSkill
+  - url: conformance/buildpacks-io-conformance.yml
+    type: Conformance
+  - url: conformance/buildpacks-io-conformance.yml
+    type: Compliance
+    name: OpenSSF Best Practices (passing) and the CNCF-funded third-party security audit
+  - url: errors/buildpacks-io-problem-types.yml
+    type: ErrorCatalog
+  - url: lifecycle/buildpacks-io-lifecycle.yml
+    type: Lifecycle
+  - url: lifecycle/buildpacks-io-lifecycle.yml
+    type: Deprecation
+    name: Versioned Deprecations sections in the Buildpack and Platform specifications
+  - url: changelog/buildpacks-io-changelog.yml
+    type: ChangeLog
+  - url: authentication/buildpacks-io-authentication.yml
+    type: Authentication
+  - url: conventions/buildpacks-io-conventions.yml
+    type: Conventions
+  - url: data-model/buildpacks-io-data-model.yml
+    type: DataModel
+  - url: plans/buildpacks-io-plans-pricing.yml
+    type: Plans
+  - url: rate-limits/buildpacks-io-rate-limits.yml
+    type: RateLimits
+  - url: security/buildpacks-io-vulnerability-disclosure.yml
+    type: VulnerabilityDisclosure
+  - url: https://github.com/buildpacks/.github/blob/main/SECURITY.md
+    type: Security
+    name: Coordinated vulnerability disclosure policy
+  - url: well-known/buildpacks-io-well-known.yml
+    type: X-WellKnownProbe
+    name: Probe record — every named /.well-known/ path 404s on all three hosts
+  - url: https://github.com/buildpacks/registry-api
+    type: APIReference
+    name: Buildpack Registry API endpoint reference
+  - url: https://www.linuxfoundation.org/privacy/
+    type: PrivacyPolicy
+    name: Linux Foundation privacy policy (linked from the buildpacks.io footer)
+  - url: https://buildpacks.io/features
+    name: Features
+    type: Documentation
+  - url: https://buildpacks.io/history
+    name: Project history and CNCF graduation
+    type: Documentation
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-09-17'
 position: Producing
+tags:
+  - Cloud Native Buildpacks
+  - Container Images
+  - Build Automation
+  - CNCF
+  - Open-Source
+  - Developer Tools
+  - OCI
+  - Specification
+  - Supply Chain
+  - Registry
+tags_raw:
+  - Cloud Native Buildpacks
+  - Container Images
+  - Build Automation
+  - CNCF
+  - Open Source
+  - Developer Tools
+  - OCI
+  - Specifications
+  - Supply Chain
+  - Registry
 description: >-
-  Cloud Native Buildpacks (CNB) is a CNCF Incubating project that transforms application source code into OCI images
+  Cloud Native Buildpacks (CNB) is a CNCF Graduated project (graduated 2026-07-17) that transforms application source code into OCI images
   that can run on any cloud. The v3 specification — Buildpack API 0.12, Platform API 0.15, and Distribution API 0.3 —
   defines a modular, vendor-neutral contract between buildpacks, builders, lifecycles, and platforms. CNB consolidates a
   decade of production experience from Heroku and Pivotal/Cloud Foundry and provides the reference lifecycle
@@ -367,3 +451,8 @@ maintainers:
     X: apievangelist
     url: https://apievangelist.com
 specificationVersion: '0.23'
+x-enrichment:
+  date: '2026-09-17'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v3
