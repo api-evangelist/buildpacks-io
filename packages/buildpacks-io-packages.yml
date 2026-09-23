@@ -1,0 +1,109 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  proxy.golang.org, crates.io and api.github.com release metadata for the first-party
+  buildpacks/* repositories linked from apis.yml, plus the pack install page at
+  https://buildpacks.io/docs/for-platform-operators/how-to/integrate-ci/pack/
+note: >-
+  Cloud Native Buildpacks is a specification project, so its "SDKs" are the libraries that let
+  an author WRITE a buildpack (libcnb in Go and Rust) and the reference tools that RUN the
+  lifecycle (pack, lifecycle). None of them is a client of the registry HTTP API — the only
+  first-party consumer of registry.buildpacks.io is the pack CLI itself.
+packages:
+- name: github.com/buildpacks/pack
+  registry: go
+  official: true
+  language: Go
+  role: reference platform / CLI implementing the Platform Interface Specification
+  url: https://pkg.go.dev/github.com/buildpacks/pack
+  repository: https://github.com/buildpacks/pack
+  version: v0.40.9
+  published: '2026-08-09'
+  source: https://proxy.golang.org/github.com/buildpacks/pack/@latest
+- name: github.com/buildpacks/lifecycle
+  registry: go
+  official: true
+  language: Go
+  role: reference lifecycle binaries (analyzer, detector, restorer, extender, builder, exporter, rebaser, launcher)
+  url: https://pkg.go.dev/github.com/buildpacks/lifecycle
+  repository: https://github.com/buildpacks/lifecycle
+  version: v0.21.20
+  published: '2026-09-15'
+  source: https://proxy.golang.org/github.com/buildpacks/lifecycle/@latest
+- name: github.com/buildpacks/libcnb
+  registry: go
+  official: true
+  language: Go
+  role: Go library for authoring buildpacks against the Buildpack API
+  url: https://pkg.go.dev/github.com/buildpacks/libcnb
+  repository: https://github.com/buildpacks/libcnb
+  version: v1.30.4
+  published: '2024-10-07'
+  source: https://proxy.golang.org/github.com/buildpacks/libcnb/@latest
+  note: >-
+    DECAY SIGNAL — the first-party Go authoring library has not published a release since
+    2024-10-07, while the lifecycle it targets released v0.21.20 on 2026-09-15 and the
+    Buildpack API has moved to 0.12.
+- name: libcnb
+  registry: crates.io
+  official: false
+  language: Rust
+  role: Rust framework for authoring buildpacks
+  url: https://crates.io/crates/libcnb
+  repository: https://github.com/heroku/libcnb.rs
+  version: 0.31.1
+  published: '2026-08-03'
+  source: https://crates.io/api/v1/crates/libcnb
+  note: >-
+    Maintained by Heroku at github.com/heroku/libcnb.rs, not by the buildpacks GitHub
+    organization. apis.yml previously pointed an SDKs property at
+    https://github.com/buildpacks/libcnb-rs, which returns 404 — that repository does not exist.
+- name: libcnb-package
+  registry: crates.io
+  official: false
+  language: Rust
+  role: cross-compilation / packaging helper for libcnb.rs buildpacks
+  url: https://crates.io/crates/libcnb-package
+  repository: https://github.com/heroku/libcnb.rs/tree/main/libcnb-package
+  version: 0.31.1
+  published: '2026-08-03'
+  source: https://crates.io/api/v1/crates/libcnb-package
+- name: libcnb-test
+  registry: crates.io
+  official: false
+  language: Rust
+  role: integration-test harness for libcnb.rs buildpacks
+  url: https://crates.io/crates/libcnb-test
+  version: 0.31.1
+  published: '2026-08-03'
+  source: https://crates.io/api/v1/crates/libcnb-test
+- name: buildpacksio/lifecycle
+  registry: docker
+  official: true
+  language: OCI image
+  role: the reference lifecycle distributed as a container image
+  url: https://hub.docker.com/r/buildpacksio/lifecycle
+  version: null
+  published: '2026-09-16'
+  source: https://hub.docker.com/v2/repositories/buildpacksio/lifecycle/tags
+  note: >-
+    version null on purpose — the tag listing returned by Docker Hub on 2026-09-17 surfaced only
+    cosign `sha256-*.sig` tags in its first page, so no semver tag was read from the registry
+    itself. The image tracks the lifecycle release train (v0.21.20, 2026-09-15).
+absent:
+- name: libcnb.net
+  language: .NET
+  searched:
+  - https://api.github.com/repos/buildpacks-community/libcnb.net
+  - https://azuresearch-usnc.nuget.org/query?q=libcnb
+  finding: >-
+    apis.yml carried an SDKs pointer at https://github.com/buildpacks-community/libcnb.net; the
+    repository 404s and NuGet search for "libcnb" returns 0 hits. Recorded as gone rather than
+    guessed at a successor.
+- registries_checked_with_no_first_party_package:
+  - npm (registry.npmjs.org — no @buildpacks scope)
+  - PyPI
+  - Maven Central
+  - NuGet
+  - RubyGems
+  - Packagist

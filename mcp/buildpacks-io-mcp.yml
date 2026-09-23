@@ -1,0 +1,73 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/buildpacks-io-search-api-openapi.yml, openapi/buildpacks-io-buildpacks-api-openapi.yml
+status: candidate
+searched:
+- query: Cloud Native Buildpacks MCP server model context protocol
+  finding: no first-party or community MCP server for buildpacks.io or the buildpack registry
+- url: https://buildpacks.io/.well-known/ai-plugin.json
+  status: 404
+- url: https://registry.buildpacks.io/.well-known/ai-plugin.json
+  status: 404
+note: >-
+  Cloud Native Buildpacks publishes no MCP server. The tools below are a CANDIDATE surface derived
+  from the three real, unauthenticated registry operations — nothing is deployed and no endpoint
+  exists. Do not read this as an agent surface the project ships.
+deployment:
+  mode: none
+  endpoint:
+  install:
+  package:
+  auth: none
+  verified: derived
+server:
+  name: buildpacks-registry
+  description: Read-only access to the public Cloud Native Buildpacks registry index.
+  transport: not deployed
+tools:
+- name: search_buildpacks
+  description: Search the public buildpack registry by keyword.
+  backing_operation: searchBuildpacks
+  method: GET
+  path: /search
+  inputSchema:
+    type: object
+    properties:
+      matches:
+        type: string
+        description: One or more space-separated keywords.
+    required:
+    - matches
+- name: list_buildpack_versions
+  description: List every published version of a namespaced buildpack.
+  backing_operation: listBuildpackVersions
+  method: GET
+  path: /buildpacks/{namespace}/{name}
+  inputSchema:
+    type: object
+    properties:
+      namespace:
+        type: string
+      name:
+        type: string
+    required:
+    - namespace
+    - name
+- name: get_buildpack_version
+  description: Get the registry record for one version of a buildpack, including its OCI image digest.
+  backing_operation: getBuildpackVersion
+  method: GET
+  path: /buildpacks/{namespace}/{name}/{version}
+  inputSchema:
+    type: object
+    properties:
+      namespace:
+        type: string
+      name:
+        type: string
+      version:
+        type: string
+    required:
+    - namespace
+    - name
+    - version

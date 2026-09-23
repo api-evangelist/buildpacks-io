@@ -1,0 +1,71 @@
+generated: '2026-09-17'
+method: probed
+source: >-
+  Live probes of registry.buildpacks.io/api/v1 (2026-09-17) plus openapi/ in this repo and the
+  registry-api README at https://github.com/buildpacks/registry-api
+scope: >-
+  These conventions describe the PUBLIC BUILDPACK REGISTRY HTTP API only. The other five entries in
+  this record are file-on-disk specifications (buildpack.toml, project.toml, OCI labels), which have
+  no HTTP semantics.
+auth:
+  style: none
+  detail: Read-only and fully anonymous; no key, token or account. See authentication/buildpacks-io-authentication.yml.
+media_type: application/json; charset=utf-8
+versioning:
+  style: path
+  detail: '/api/v1 prefix; no version header, no content negotiation. Only v1 has ever existed.'
+pagination:
+  style: none
+  detail: >-
+    /search returns every match in one unpaginated JSON array — 83KB for `matches=dotnet-core` on
+    2026-09-17. There is no limit, offset, cursor or page parameter, and no Link header. An agent
+    cannot bound the response size; it can only narrow the keyword.
+  params: []
+filtering:
+  detail: Single required `matches` query parameter, space-separated keywords. No field selection, sorting or sparse fieldsets.
+expansion:
+  supported: false
+  detail: >-
+    The version list response embeds `_link` absolute URLs per version rather than the full records,
+    so a full history costs one request per version. Note the emitted links currently contain a
+    doubled slash (https://registry.buildpacks.io//api/v1/...), which still resolves.
+metadata:
+  supported: false
+request_id:
+  header: x-request-id
+  detail: Rails/Heroku request id echoed on every response; also x-runtime with server time in seconds.
+caching:
+  headers: 'cache-control: max-age=0, private, must-revalidate; etag (weak); vary: Accept, Origin'
+  conditional_requests: ETag supported
+error_envelope:
+  shape: '{"error": "<message>"}'
+  rfc9457: false
+  detail: See errors/buildpacks-io-problem-types.yml.
+rate_limit_signaling:
+  headers: none
+  detail: No RateLimit-*, X-RateLimit-* or Retry-After on any observed response. See rate-limits/.
+idempotency:
+  coverage: na
+  supported: false
+  mechanism: none
+  detail: >-
+    The API has no mutating surface — all three operations are GET. Nothing can be double-fired, so
+    there is no idempotency key to document. Registry writes (`pack buildpack register` / `yank`)
+    happen through GitHub issues against buildpacks/registry-index, outside this API.
+dry_run_mode:
+  supported: na
+  detail: No write surface to rehearse.
+reversibility:
+  grade: na
+  detail: >-
+    No write operations exist on the registry API, so there is nothing to reverse. The one
+    reversal-shaped action in the ecosystem is `pack buildpack yank`, which retracts a published
+    version by opening a GitHub issue against buildpacks/registry-index and sets `yanked: true` on
+    the registry record — it is a CLI + GitHub workflow, not an API call, and the project publishes
+    no window inside which a yank itself can be undone.
+  write_surfaces: []
+cross_links:
+  errors: errors/buildpacks-io-problem-types.yml
+  lifecycle: lifecycle/buildpacks-io-lifecycle.yml
+  authentication: authentication/buildpacks-io-authentication.yml
+  rate_limits: rate-limits/buildpacks-io-rate-limits.yml

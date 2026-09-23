@@ -1,0 +1,79 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/buildpacks-io-buildpacks-api-openapi.yml, openapi/buildpacks-io-search-api-openapi.yml, examples/
+scope: the public buildpack registry API data model
+entities:
+- name: Buildpack
+  identity: namespace + name
+  description: A buildpack published to the community registry, addressed as `<namespace>/<name>`.
+  fields:
+  - namespace
+  - name
+  - description
+  - homepage
+  - licenses
+- name: BuildpackVersion
+  identity: id (uuid) — also addressable as namespace/name/version
+  description: One published, immutable version of a buildpack, pointing at an OCI image by digest.
+  fields:
+  - id
+  - namespace
+  - name
+  - version
+  - version_major
+  - version_minor
+  - version_patch
+  - yanked
+  - addr
+  - description
+  - homepage
+  - licenses
+  - stacks
+  - targets
+  - created_at
+  - updated_at
+- name: VersionLink
+  identity: version
+  description: A short reference emitted inside list responses — a version string plus the absolute URL of its full record.
+  fields:
+  - version
+  - _link
+- name: Target
+  identity: os + arch (+ distro)
+  description: A platform a buildpack version declares support for; replaced the deprecated `stacks` model in Buildpack API 0.12.
+  fields:
+  - os
+  - arch
+  - variant
+  - distros[].name
+  - distros[].version
+relationships:
+- from: Buildpack
+  to: BuildpackVersion
+  type: has_many
+  via: namespace + name
+- from: Buildpack
+  to: BuildpackVersion
+  type: has_one
+  via: latest
+  note: Every list and search response embeds the newest version as `latest`.
+- from: BuildpackVersion
+  to: Target
+  type: has_many
+  via: targets[]
+- from: BuildpackVersion
+  to: VersionLink
+  type: has_many
+  via: versions[]
+id_conventions:
+- field: id
+  form: UUID v4, e.g. a5a13bbc-9079-4004-8e11-703b77c8e1d2
+  note: Opaque registry-index row id; not used in any route. Routes address a version by namespace/name/version.
+- field: addr
+  form: OCI image reference with digest, e.g. index.docker.io/paketobuildpacks/nodejs@sha256:...
+  note: The only cross-system identifier in the model — it leaves the registry and resolves in an OCI registry.
+external_references:
+- system: OCI registry (Docker Hub, ECR Public, GHCR)
+  via: addr
+- system: buildpacks/registry-index GitHub repository
+  via: the registry index itself is the source of truth; the API is a read view over it

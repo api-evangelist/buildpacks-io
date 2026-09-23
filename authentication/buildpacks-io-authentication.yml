@@ -1,0 +1,32 @@
+generated: '2026-09-17'
+method: probed
+source: >-
+  Live unauthenticated probes of registry.buildpacks.io/api/v1, the registry-api README
+  (https://github.com/buildpacks/registry-api) and the Buildpack Registry Extension Specification
+  (https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md)
+docs: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+summary: >-
+  The public buildpack registry API is read-only and entirely unauthenticated — no key, token,
+  account or signup. All three operations return 200 to an anonymous request. Write access to the
+  registry is not an API surface at all: publishing and yanking go through the `pack` CLI, which
+  opens a GitHub issue against buildpacks/registry-index and authenticates with a GitHub token
+  belonging to the buildpack author, not with a registry credential.
+schemes: []
+auth_required: false
+anonymous_access: full
+evidence:
+- url: https://registry.buildpacks.io/api/v1/search?matches=ruby
+  status: 200
+  note: no Authorization header sent
+- url: https://registry.buildpacks.io/api/v1/buildpacks/paketo-buildpacks/nodejs/10.11.0
+  status: 200
+  note: no Authorization header sent
+- url: https://registry.buildpacks.io/.well-known/oauth-authorization-server
+  status: 404
+- url: https://registry.buildpacks.io/.well-known/openid-configuration
+  status: 404
+write_path:
+  mechanism: GitHub issue against buildpacks/registry-index, opened by `pack buildpack register`
+  credential: the author's GitHub token
+  not_an_api: true
+  source: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md

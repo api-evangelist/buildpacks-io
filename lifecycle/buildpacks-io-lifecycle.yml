@@ -1,0 +1,81 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://github.com/buildpacks/spec (README, buildpack.md, platform.md), GitHub release metadata
+  for buildpacks/pack and buildpacks/lifecycle, and https://www.cncf.io/projects/buildpacks/
+versioning:
+  scheme: >-
+    Independent <major>.<minor> API versions per specification document, negotiated at build time
+    between buildpack, lifecycle and platform. Implementations (pack, lifecycle) version separately
+    with semver.
+  current:
+    buildpack_api: '0.12'
+    platform_api: '0.15'
+    distribution_api: '0.3'
+  rule: >-
+    "When <major> is greater than 0 increments to <minor> SHALL exclusively indicate additive
+    changes" — buildpack.md, Buildpack API Version.
+  negotiation: >-
+    The lifecycle MUST return an error to the platform if it does not support the buildpack API
+    version a buildpack declares in buildpack.toml. Version mismatch fails the build rather than
+    silently degrading.
+  source: https://github.com/buildpacks/spec/blob/main/buildpack.md
+deprecation_policy:
+  published: true
+  mechanism: >-
+    Each specification document carries a dedicated "Deprecations" section naming every deprecated
+    feature, the API version it was deprecated in, and the upgrade path.
+  url: https://github.com/buildpacks/spec/blob/main/buildpack.md#deprecations
+  headers:
+    sunset: false
+    deprecation: false
+    note: RFC 8594 Sunset/Deprecation headers do not apply — the deprecation surface is a build-time contract, not an HTTP API.
+  deprecated:
+  - feature: buildpack.toml `stacks` array
+    deprecated_in: Buildpack API 0.10
+    replacement: '`targets` (os/arch/distros)'
+  - feature: positional arguments to `bin/detect` and `bin/build`
+    deprecated_in: Buildpack API 0.8
+  - feature: '`bom` array in launch.toml / build.toml'
+    deprecated_in: Buildpack API 0.7
+    replacement: per-layer SBOM files (CycloneDX / SPDX / Syft)
+  - feature: '`io.buildpacks.stack.*` OCI labels and CNB_STACK_ID'
+    deprecated_in: Platform API 0.12
+    replacement: run-image metadata and targets
+  - feature: '`stack` key in io.buildpacks.lifecycle.metadata'
+    deprecated_in: Platform API 0.12
+    replacement: top-level `runImage` key
+  - feature: '`-image` flag on the exporter'
+    deprecated_in: Platform API (see platform.md deprecations)
+    replacement: '`-run-image`'
+releases:
+  cadence: continuous, per-component GitHub releases
+  components:
+  - name: lifecycle
+    latest: v0.21.20
+    released: '2026-09-16'
+    url: https://github.com/buildpacks/lifecycle/releases
+  - name: pack
+    latest: v0.40.9
+    released: '2026-08-09'
+    url: https://github.com/buildpacks/pack/releases
+status_page:
+  published: false
+  probed:
+  - url: https://status.buildpacks.io
+    status: 0
+    note: DNS does not resolve — no status page exists.
+  note: >-
+    No status page. registry.buildpacks.io runs on Heroku and publishes no availability surface;
+    outages surface through the CNCF Slack #buildpacks channel and GitHub issues.
+sla:
+  published: false
+  note: Volunteer-run CNCF project; no availability or support SLA is offered for registry.buildpacks.io.
+project_maturity:
+  foundation: CNCF
+  level: Graduated
+  accepted: '2018-10-03'
+  incubating: '2020-11-18'
+  graduated: '2026-07-17'
+  source: https://www.cncf.io/projects/buildpacks/
+deprecated_operations: []

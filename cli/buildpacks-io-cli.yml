@@ -1,0 +1,85 @@
+generated: '2026-09-17'
+method: searched
+source: https://buildpacks.io/docs/for-platform-operators/how-to/integrate-ci/pack/
+docs: https://buildpacks.io/docs/for-platform-operators/how-to/integrate-ci/pack/cli/pack/
+repository: https://github.com/buildpacks/pack
+name: pack
+description: >-
+  `pack` is the reference CLI implementation of the Cloud Native Buildpacks Platform Interface
+  Specification. It builds OCI images from source with buildpacks, packages and publishes
+  buildpacks/builders/extensions, and is the only first-party client of the public buildpack
+  registry API at registry.buildpacks.io.
+version: v0.40.9
+released: '2026-08-09'
+language: Go
+license: Apache-2.0
+install:
+- platform: macOS / Linux
+  method: homebrew
+  command: brew install buildpacks/tap/pack
+- platform: Linux (Ubuntu)
+  method: apt (PPA)
+  command: sudo add-apt-repository ppa:cncf-buildpacks/pack-cli && sudo apt-get update && sudo apt-get install pack-cli
+- platform: Linux (Arch)
+  method: pacman
+  command: pacman -S pack-cli
+- platform: Linux (Fedora)
+  method: dnf
+  command: sudo dnf install pack
+- platform: Linux (openSUSE)
+  method: zypper
+  command: sudo zypper install buildpacks-cli
+- platform: Windows
+  method: chocolatey
+  command: choco install pack --version=0.40.9
+- platform: Windows
+  method: scoop
+  command: scoop install pack
+- platform: any
+  method: container
+  command: docker run buildpacksio/pack:0.40.9
+- platform: any
+  method: mise
+  command: mise use -g pack@latest
+- platform: any
+  method: tarball
+  command: curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.40.9/pack-v0.40.9-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
+commands:
+- group: build
+  summary: Generate an app image from source using a builder
+- group: builder
+  summary: Create, inspect, and suggest builders
+- group: buildpack
+  summary: Package, inspect, register, pull, yank and new buildpacks — `register`, `pull` and `yank` talk to the registry API
+- group: extension
+  summary: Package and inspect image extensions
+- group: config
+  summary: Configure pack (default builder, trusted builders, registries, run-image mirrors)
+- group: manifest
+  summary: Create and manage multi-arch OCI image indexes
+- group: rebase
+  summary: Swap the run image beneath an app image without a rebuild
+- group: sbom
+  summary: Download the SBOM emitted into an app image
+- group: inspect / inspect-image
+  summary: Inspect an image's buildpack, lifecycle and run-image metadata
+- group: report
+  summary: Print pack configuration and version diagnostics for bug reports
+- group: stack
+  summary: Legacy stack commands (stacks superseded by targets in Buildpack API 0.12)
+- group: completion
+  summary: Generate shell completion
+- group: version
+  summary: Print the pack version
+registry_commands:
+- command: pack buildpack register <image>
+  talks_to: https://registry.buildpacks.io
+  note: Opens a GitHub issue against buildpacks/registry-index; requires a GitHub token, not a registry API key.
+- command: pack buildpack pull <namespace>/<name>@<version>
+  talks_to: https://registry.buildpacks.io/api/v1
+- command: pack buildpack yank <namespace>/<name>@<version>
+  talks_to: https://registry.buildpacks.io
+other_first_party_tools:
+- name: lifecycle
+  repository: https://github.com/buildpacks/lifecycle
+  note: Binaries (analyzer, detector, restorer, extender, builder, exporter, creator, rebaser, launcher) invoked by platforms, not usually by hand.

@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Cloud Native Buildpacks Registry Search API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-17'
+  method: derived
+  source: openapi/buildpacks-io-search-api-openapi.yml
+  note: >-
+    Records the API Evangelist additions to the search contract, including the correction of the
+    200 response from the previously described `{ matches: [...] }` envelope to the array the API
+    actually returns, verified by live probe on 2026-09-17.
+extends: ../openapi/buildpacks-io-search-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-profile: https://apis.io/provider/buildpacks-io
+    x-response-shapes-verified: '2026-09-17'
+- target: $.paths['/search'].get
+  update:
+    security: []
+    x-pagination: none — the full match set is returned in one array
+    x-error-catalog: errors/buildpacks-io-problem-types.yml
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+      subject: optional
+      audit: none

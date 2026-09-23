@@ -1,0 +1,80 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://github.com/buildpacks/spec (buildpack.md, platform.md, distribution.md),
+  https://github.com/buildpacks/.github/blob/main/SECURITY.md,
+  https://www.bestpractices.dev/projects/4748.json and https://www.cncf.io/projects/buildpacks/
+conformance:
+- id: oci-image-spec
+  conforms: true
+  evidence: >-
+    distribution.md: "A buildpackage MUST exist as either an OCI image on an image registry, an OCI
+    image in a Docker daemon, or a .cnb file." Buildpack identity and layer metadata are carried in
+    OCI image config Labels (io.buildpacks.*).
+  url: https://github.com/buildpacks/spec/blob/main/distribution.md
+- id: oci-distribution-spec
+  conforms: true
+  evidence: Buildpacks, extensions and builders are published to and pulled from OCI registries; `addr` in every registry record is an OCI image reference with a digest.
+  url: https://github.com/buildpacks/spec/blob/main/distribution.md
+- id: cyclonedx
+  conforms: true
+  evidence: 'buildpack.md SBOM media-type table registers `application/vnd.cyclonedx+json` (file `<layer>.sbom.cdx.json`) as an accepted per-layer SBOM format.'
+  url: https://github.com/buildpacks/spec/blob/main/buildpack.md
+- id: spdx
+  conforms: true
+  evidence: 'buildpack.md SBOM media-type table registers `application/spdx+json` (file `<layer>.sbom.spdx.json`); license identifiers MAY use SPDX 2.1 license expressions.'
+  url: https://github.com/buildpacks/spec/blob/main/buildpack.md
+- id: syft-sbom
+  conforms: true
+  evidence: 'buildpack.md SBOM media-type table registers `application/vnd.syft+json` (file `<layer>.sbom.syft.json`).'
+  url: https://github.com/buildpacks/spec/blob/main/buildpack.md
+- id: rfc2119
+  conforms: true
+  evidence: 'Notational Conventions: "The key words MUST, MUST NOT, REQUIRED ... are to be interpreted as described in RFC 2119."'
+  url: https://github.com/buildpacks/spec/blob/main/README.md
+- id: semver
+  conforms: true
+  evidence: Registry records expose version_major/minor/patch and the route for a version record only matches MAJOR.MINOR.PATCH[-prerelease]; buildpack versions are semver.
+  url: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
+- id: toml
+  conforms: true
+  evidence: buildpack.toml, project.toml, launch.toml, build.toml, order.toml, plan.toml and the rest of the lifecycle exchange files are TOML, referenced against the toml-lang specification.
+  url: https://github.com/buildpacks/spec/blob/main/buildpack.md
+- id: service-binding-spec-kubernetes
+  conforms: true
+  evidence: The Bindings Extension aligns the $CNB_PLATFORM_DIR/bindings/ layout with the Service Binding Specification for Kubernetes.
+  url: https://github.com/buildpacks/spec/blob/main/extensions/bindings.md
+- id: openssf-best-practices
+  conforms: true
+  level: passing
+  evidence: 'OpenSSF (CII) Best Practices badge 4748, badge_level "passing", achieved 2021-03-17; badged repo https://github.com/buildpacks.'
+  url: https://www.bestpractices.dev/projects/4748
+- id: third-party-security-audit
+  conforms: true
+  evidence: 'SECURITY.md: "The Cloud Native Buildpacks project completed a third party security audit on 2024-07-17 funded by the CNCF", published on the OSTIF blog. A CNCF self-assessment was completed 2021-09-07.'
+  url: https://github.com/buildpacks/.github/blob/main/SECURITY.md
+- id: cncf-graduation
+  conforms: true
+  evidence: 'CNCF project page: accepted 2018-10-03, Incubating 2020-11-18, Graduated 2026-07-17. Graduation requires a completed third-party security audit, governance, and adopter due diligence.'
+  url: https://www.cncf.io/projects/buildpacks/
+- id: oauth2
+  conforms: false
+  evidence: 'No OAuth surface; /.well-known/oauth-authorization-server returns 404 on every host and the registry API is anonymous.'
+- id: rfc9457
+  conforms: false
+  evidence: 'Errors are a vendor `{"error": "..."}` envelope in application/json, not application/problem+json.'
+- id: idempotency
+  conforms: false
+  evidence: No mutating HTTP operations exist, so no idempotency mechanism is defined.
+- id: pagination
+  conforms: false
+  evidence: /search returns an unbounded, unpaginated array.
+domain_standard:
+  market: container image build / supply chain
+  standards:
+  - OCI Image Specification and OCI Distribution Specification — the buildpack contract's output format and distribution channel, declared in distribution.md rather than claimed in marketing prose.
+  - CycloneDX, SPDX and Syft SBOM formats, registered by media type in buildpack.md.
+  note: >-
+    Cloud Native Buildpacks is itself the domain standard for this market — the Buildpack, Platform
+    and Distribution APIs are the specification other projects (kpack, Tekton, GitLab Auto DevOps,
+    Paketo, Heroku, Google Cloud buildpacks) conform TO.

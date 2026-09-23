@@ -1,0 +1,23 @@
+generated: '2026-09-17'
+method: generated
+source: >-
+  openapi/buildpacks-io-search-api-openapi.yml, openapi/buildpacks-io-buildpacks-api-openapi.yml and
+  conventions/buildpacks-io-conventions.yml — every operationId referenced below is present in those
+  specifications and was exercised live on 2026-09-17.
+note: >-
+  Cloud Native Buildpacks publishes no skills or AGENTS.md of its own; these are API Evangelist
+  packaged skills grounded in the three real registry operations.
+skills:
+- name: find-a-buildpack
+  file: buildpacks-io-find-buildpack.md
+  description: Find a buildpack in the public registry by keyword and resolve it to a pinned OCI image reference.
+  operations:
+  - searchBuildpacks
+  - listBuildpackVersions
+  - getBuildpackVersion
+- name: audit-a-registry-buildpack-dependency
+  file: buildpacks-io-audit-registry-dependency.md
+  description: Check whether a pinned buildpack is still published, still current, and not yanked.
+  operations:
+  - listBuildpackVersions
+  - getBuildpackVersion

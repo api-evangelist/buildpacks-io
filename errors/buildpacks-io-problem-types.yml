@@ -1,0 +1,39 @@
+generated: '2026-09-17'
+method: probed
+source: >-
+  Live error responses from registry.buildpacks.io/api/v1 (2026-09-17), cross-checked against the
+  OpenAPI definitions in openapi/
+format: vendor-json
+envelope:
+  shape: '{"error": "<message>"}'
+  content_type: application/json; charset=utf-8
+  rfc9457: false
+  note: >-
+    The registry API does not use application/problem+json. Errors are a single-field JSON object
+    with a human-readable `error` string and no code, type URI, or machine-readable discriminator —
+    an agent has to branch on the HTTP status and, if it needs more, on the message text.
+problem_types:
+- status: 400
+  error: Missing search string 'matches'
+  operation: searchBuildpacks
+  meaning: The required `matches` query parameter was absent.
+  remediation: Supply ?matches=<keywords>.
+  observed_at: https://registry.buildpacks.io/api/v1/search
+- status: 404
+  error: Unknown buildpack
+  operation: listBuildpackVersions
+  meaning: No buildpack is published under that namespace/name.
+  remediation: Search first, or check the namespace spelling; the registry index is case-sensitive.
+  observed_at: https://registry.buildpacks.io/api/v1/buildpacks/nosuchns/nosuchbp
+- status: 404
+  error: Unknown buildpack
+  operation: getBuildpackVersion
+  meaning: >-
+    The buildpack exists but not at that version, OR the version string did not match the route
+    constraint (MAJOR.MINOR.PATCH[-prerelease]). Both collapse to the same message.
+  remediation: List versions first and use a version string from that response.
+  observed_at: https://registry.buildpacks.io/api/v1/buildpacks/paketo-buildpacks/nodejs/99.99.99
+gaps:
+- No distinct error for "unknown version" versus "unknown buildpack" — both return `Unknown buildpack`.
+- No error code, type URI or retry hint anywhere in the envelope.
+- An empty search result is a 200 with `[]`, not a 404 — correct, and worth noting for agents.

@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Cloud Native Registry Buildpacks API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-17'
+  method: derived
+  source: openapi/buildpacks-io-buildpacks-api-openapi.yml
+  note: >-
+    Captures the enhancements API Evangelist applied on top of the buildpack registry contract.
+    The registry publishes no OpenAPI of its own; the base document in openapi/ was written from the
+    registry-api route table and README and its response schemas were corrected on 2026-09-17
+    against live unauthenticated probes. This overlay records the additions, it does not mutate the
+    base file.
+extends: ../openapi/buildpacks-io-buildpacks-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-profile: https://apis.io/provider/buildpacks-io
+    x-response-shapes-verified: '2026-09-17'
+- target: $.paths.*.get
+  update:
+    security: []
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+      subject: optional
+      audit: none
+- target: $.paths['/buildpacks/{namespace}/{name}'].get
+  update:
+    x-rate-limit: none published; see rate-limits/buildpacks-io-rate-limits.yml
+    x-error-catalog: errors/buildpacks-io-problem-types.yml
+- target: $.paths['/buildpacks/{namespace}/{name}/{version}'].get
+  update:
+    x-rate-limit: none published; see rate-limits/buildpacks-io-rate-limits.yml
+    x-error-catalog: errors/buildpacks-io-problem-types.yml

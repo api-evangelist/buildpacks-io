@@ -1,0 +1,58 @@
+generated: '2026-09-17'
+method: probed
+source: direct HTTPS probes of the named /.well-known/ paths on every host this record knows
+note: >-
+  Every named path 404s on all three hosts. buildpacks.io and www.buildpacks.io return the site's
+  own HTML 404 page (a Netlify-style shell) rather than a document; registry.buildpacks.io returns
+  an empty-bodied Rails 404. No WellKnown or SecurityTxt pointer is emitted, because nothing is
+  served. The project's security policy is real but lives at
+  https://github.com/buildpacks/.github/blob/main/SECURITY.md, not in a security.txt.
+hosts:
+- host: buildpacks.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: www.buildpacks.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: registry.buildpacks.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404

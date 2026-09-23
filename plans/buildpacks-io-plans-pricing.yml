@@ -1,0 +1,17 @@
+generated: '2026-09-17'
+method: searched
+source: https://buildpacks.io/
+plan_count: 0
+note: >-
+  Cloud Native Buildpacks is a CNCF Graduated open-source project, not a commercial vendor. There is
+  no pricing page, no plans, no accounts and no billing anywhere on buildpacks.io or
+  registry.buildpacks.io; the specifications are Apache-2.0 and the public registry is free and
+  unauthenticated to read. plan_count 0 is the real answer, not a gap.
+pricing_model: none — open source (Apache-2.0) project with a free public registry
+plans: []
+evidence:
+- url: https://buildpacks.io/
+  status: 200
+- url: https://registry.buildpacks.io/api/v1/search?matches=ruby
+  status: 200
+  note: served unauthenticated with no account or key

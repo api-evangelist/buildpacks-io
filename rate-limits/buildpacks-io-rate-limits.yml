@@ -1,0 +1,27 @@
+generated: '2026-09-17'
+method: probed
+source: >-
+  Live unauthenticated responses from https://registry.buildpacks.io/api/v1/search?matches=ruby and
+  the registry-api README at https://github.com/buildpacks/registry-api
+limit_count: 0
+note: >-
+  No published rate limits. The buildpack registry API documents none in the registry-api README,
+  the Buildpack Registry Extension Specification, or buildpacks.io, and a live 200 response carries
+  no RateLimit-*, X-RateLimit-* or Retry-After header. The service runs on Heroku (server: Heroku,
+  via: heroku-router), so router-level limits may apply without being advertised. An honest zero.
+limits: []
+response_headers:
+  observed:
+  - cache-control
+  - etag
+  - vary
+  - x-request-id
+  - x-runtime
+  - strict-transport-security
+  rate_limit_headers: none
+  retry_after: not sent
+exhaustion_status: undocumented
+observed:
+- url: https://registry.buildpacks.io/api/v1/search?matches=ruby
+  status: 200
+  rate_limit_headers_present: false
