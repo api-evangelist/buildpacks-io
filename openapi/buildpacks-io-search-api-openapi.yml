@@ -9,11 +9,6 @@ info:
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-  x-response-shapes-verified: '2026-09-17'
-  x-response-shapes-source: >-
-    Live unauthenticated probes of https://registry.buildpacks.io/api/v1/search plus the response
-    examples published in the https://github.com/buildpacks/registry-api README. The previous 200
-    schema described a `matches` array envelope the API does not return.
 servers:
 - url: https://registry.buildpacks.io/api/v1
   description: Public Buildpack Registry
@@ -24,11 +19,10 @@ paths:
   /search:
     get:
       summary: Search Buildpacks
-      description: Search the registry-index for buildpacks whose id, namespace, description, or keywords match the supplied terms. Multiple space-separated terms are combined; a query matching nothing returns an empty array, not a 404.
+      description: Search the registry-index for buildpacks whose id, namespace, description, or keywords match the supplied terms.
       operationId: searchBuildpacks
       tags:
       - Search
-      security: []
       parameters:
       - name: matches
         in: query
@@ -36,106 +30,37 @@ paths:
         description: One or more space-separated keywords to match.
         schema:
           type: string
-          example: procfile
+          example: nodejs
       responses:
         '200':
-          description: Search results — a JSON array of matched buildpacks, each with its latest version record and the list of published versions. An empty array is returned when nothing matches.
+          description: Search results
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BuildpackSearchResult'
-        '400':
-          description: The required `matches` parameter was not supplied.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: Missing search string 'matches'
+                type: object
+                properties:
+                  matches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BuildpackSummary'
+                required:
+                - matches
 components:
   schemas:
-    BuildpackSearchResult:
+    BuildpackSummary:
       type: object
-      description: One matched buildpack — its latest published version plus links to every version.
+      description: Short-form match returned by /search.
       properties:
-        latest:
-          $ref: '#/components/schemas/BuildpackVersion'
-        versions:
-          type: array
-          items:
-            $ref: '#/components/schemas/VersionLink'
-    VersionLink:
-      type: object
-      description: A published version and the API URL of its full record.
-      properties:
-        version:
-          type: string
-          example: 4.2.3
-        _link:
-          type: string
-          format: uri
-          example: https://registry.buildpacks.io/api/v1/buildpacks/heroku/procfile/4.2.3
-    BuildpackVersion:
-      type: object
-      description: Full record for one published buildpack version, as returned by the registry.
-      properties:
-        id:
-          type: string
-          description: Stable internal id of this version row in the registry-index.
-          example: bd2e8a05-8add-4906-a425-0bbaa5002520
         namespace:
           type: string
-          example: heroku
+          description: Registry namespace.
+          example: paketo-buildpacks
         name:
           type: string
-          example: procfile
-        version:
-          type: string
-          example: 4.2.3
-        yanked:
-          type: boolean
-          description: True when the version has been retracted via `pack buildpack yank`.
-        addr:
-          type: string
-          description: OCI image reference for the buildpack artifact, including digest.
-          example: docker.io/heroku/buildpack-procfile@sha256:f67a6be0cea63747736584b79209c59f9ec1170e15c67e0b4c192e500e2ecf48
+          description: Buildpack name within the namespace.
+          example: nodejs
         description:
           type: string
-        homepage:
+        latest_version:
           type: string
-          format: uri
-        licenses:
-          type: array
-          items:
-            type: string
-        stacks:
-          type: array
-          description: Stacks this version declares support for (deprecated in favor of targets in buildpack API 0.12). Registry records commonly carry `["*"]`.
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        version_major:
-          type: string
-          example: '4'
-        version_minor:
-          type: string
-          example: '2'
-        version_patch:
-          type: string
-          example: '3'
-    Error:
-      type: object
-      description: Error envelope returned by the registry API on 4xx responses.
-      properties:
-        error:
-          type: string
-          description: Human-readable error message.
-      required:
-      - error
+          example: 4.5.1

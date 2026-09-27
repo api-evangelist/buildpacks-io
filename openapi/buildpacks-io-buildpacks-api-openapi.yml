@@ -9,11 +9,6 @@ info:
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-  x-response-shapes-verified: '2026-09-17'
-  x-response-shapes-source: >-
-    Live unauthenticated probes of https://registry.buildpacks.io/api/v1/buildpacks/{namespace}/{name}
-    and /{version}, plus the response examples published in the
-    https://github.com/buildpacks/registry-api README and the route table in its config/routes.rb.
 servers:
 - url: https://registry.buildpacks.io/api/v1
   description: Public Buildpack Registry
@@ -24,11 +19,10 @@ paths:
   /buildpacks/{namespace}/{name}:
     get:
       summary: List Buildpack Versions
-      description: Return the latest record plus a link to every published version of a single namespaced buildpack (e.g. `paketo-buildpacks/nodejs`).
+      description: Return every published version of a single namespaced buildpack (e.g. `paketo-buildpacks/nodejs`).
       operationId: listBuildpackVersions
       tags:
       - Buildpacks
-      security: []
       parameters:
       - name: namespace
         in: path
@@ -46,34 +40,27 @@ paths:
           example: nodejs
       responses:
         '200':
-          description: Latest record plus version links
+          description: List of versions
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   latest:
-                    $ref: '#/components/schemas/BuildpackLatest'
+                    $ref: '#/components/schemas/BuildpackVersion'
                   versions:
                     type: array
                     items:
-                      $ref: '#/components/schemas/VersionLink'
+                      $ref: '#/components/schemas/BuildpackVersion'
         '404':
           description: Buildpack not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: Unknown buildpack
   /buildpacks/{namespace}/{name}/{version}:
     get:
       summary: Get Buildpack Version
-      description: Return registry metadata for a specific version of a namespaced buildpack, including the OCI image reference, yanked state, and declared stacks/targets.
+      description: Return registry metadata for a specific version of a namespaced buildpack, including the OCI image reference, yanked state, and supported stacks/targets.
       operationId: getBuildpackVersion
       tags:
       - Buildpacks
-      security: []
       parameters:
       - name: namespace
         in: path
@@ -90,10 +77,10 @@ paths:
       - name: version
         in: path
         required: true
-        description: Semantic version of the buildpack. The route only matches `MAJOR.MINOR.PATCH[-prerelease]`.
+        description: Semantic version of the buildpack.
         schema:
           type: string
-          example: 10.11.0
+          example: 4.5.1
       responses:
         '200':
           description: Buildpack version metadata
@@ -103,12 +90,6 @@ paths:
                 $ref: '#/components/schemas/BuildpackVersion'
         '404':
           description: Buildpack version not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: Unknown buildpack
 components:
   schemas:
     BuildpackVersion:
@@ -118,7 +99,6 @@ components:
         id:
           type: string
           description: Stable internal id of this version row in the registry-index.
-          example: a5a13bbc-9079-4004-8e11-703b77c8e1d2
         namespace:
           type: string
           example: paketo-buildpacks
@@ -127,14 +107,15 @@ components:
           example: nodejs
         version:
           type: string
-          example: 10.11.0
+          example: 4.5.1
         yanked:
           type: boolean
           description: True when the version has been retracted via `pack buildpack yank`.
         addr:
           type: string
-          description: OCI image reference for the buildpack artifact, including digest.
-          example: index.docker.io/paketobuildpacks/nodejs@sha256:1d3d50ae1eef0013805436049cf54ad32ab8706bc09b1631390bfd95b9f66f8f
+          description: 'OCI image reference for the buildpack artifact, including digest, for example `docker.io/paketobuildpacks/nodejs@sha256:...`.
+
+            '
         description:
           type: string
         homepage:
@@ -146,12 +127,12 @@ components:
             type: string
         stacks:
           type: array
-          description: Stacks this version declares support for (deprecated in favor of targets in buildpack API 0.12). Live records commonly carry `["*"]`.
+          description: Stacks this version declares support for (deprecated in favor of targets in buildpack API 0.12).
           items:
             type: string
         targets:
           type: array
-          description: Targets this version declares support for (buildpack API >= 0.12). Present only on records published with target metadata.
+          description: Targets this version declares support for (buildpack API >= 0.12).
           items:
             type: object
             properties:
@@ -176,59 +157,3 @@ components:
         updated_at:
           type: string
           format: date-time
-        version_major:
-          type: string
-          example: '10'
-        version_minor:
-          type: string
-          example: '11'
-        version_patch:
-          type: string
-          example: '0'
-    BuildpackLatest:
-      type: object
-      description: Short-form latest-version record returned inside the version list response.
-      properties:
-        id:
-          type: string
-        namespace:
-          type: string
-          example: paketo-buildpacks
-        name:
-          type: string
-          example: nodejs
-        version:
-          type: string
-          example: 10.11.0
-        description:
-          type: string
-        homepage:
-          type: string
-          format: uri
-        licenses:
-          type: array
-          items:
-            type: string
-        stacks:
-          type: array
-          items:
-            type: string
-    VersionLink:
-      type: object
-      description: A published version and the API URL of its full record.
-      properties:
-        version:
-          type: string
-          example: 10.11.0
-        _link:
-          type: string
-          format: uri
-          description: Absolute URL of the version record. The registry currently emits a doubled slash before `/api`.
-    Error:
-      type: object
-      description: Error envelope returned by the registry API on 4xx responses.
-      properties:
-        error:
-          type: string
-      required:
-      - error

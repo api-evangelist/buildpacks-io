@@ -1,16 +1,24 @@
 name: Buildpacks Io
 aid: buildpacks-io
 deliveryModel:
-  model: unknown
+  model: saas
+  license_evidence:
+    not_product:
+    - buildpacks/community
+    - buildpacks/registry-api
+    - buildpacks/registry-index
+    - buildpacks/rfcs
+    - buildpacks/spec
   open_source: unknown
-  commercial: false
+  commercial: true
   callable_host: true
-  label: Delivery model not determined — needs a product licence on record
+  label: Hosted service · you call their endpoint
   confidence: low
   source:
   - openapi
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: unknown
@@ -421,7 +429,7 @@ tags:
   - Container Images
   - Build Automation
   - CNCF
-  - Open-Source
+  - Open Source
   - Developer Tools
   - OCI
   - Specification
@@ -438,6 +446,7 @@ tags_raw:
   - Specifications
   - Supply Chain
   - Registry
+  - Open-Source
 description: >-
   Cloud Native Buildpacks (CNB) is a CNCF Graduated project (graduated 2026-07-17) that transforms application source code into OCI images
   that can run on any cloud. The v3 specification — Buildpack API 0.12, Platform API 0.15, and Distribution API 0.3 —
