@@ -7,14 +7,17 @@ front_door_ai:
   probed_at: '2026-09-17'
   host: www.buildpacks.io
   final_host: buildpacks.io
-  ownership: inherited
+  ownership: own
   owner: buildpacks-io
   shares_host_with: null
-  inherited_from: buildpacks.io
+  inherited_from: null
+  alias_of: buildpacks.io
   verdict: silent
-  score: null
+  score: 0
+  band: 1
+  band_label: silent
   host_score: 0
-  density: null
+  density: 0.0
   words: 372
   tiers:
     agentic: 0
