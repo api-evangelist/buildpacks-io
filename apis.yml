@@ -156,6 +156,8 @@ apis:
   humanURL: https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md
   baseURL: https://registry.buildpacks.io/api/v1
   tags:
+  - Cloud Native Buildpacks
+  tags_raw:
   - Buildpacks
   properties:
   - type: OpenAPI
