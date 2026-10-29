@@ -1,4 +1,4 @@
-# buildpacks-io (buildpacks-io)
+# Buildpacks Io
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,218 +64,182 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cloud Native Buildpacks (CNB) is a CNCF Incubating project that transforms application source code into OCI images that can run on any cloud. The v3 specification — Buildpack API 0.12, Platform API 0.15, and Distribution API 0.3 — defines a modular, vendor-neutral contract between buildpacks, builders, lifecycles, and platforms. CNB consolidates a decade of production experience from Heroku and Pivotal/Cloud Foundry and provides the reference lifecycle (buildpacksio/lifecycle), the `pack` CLI, language bindings (libcnb in Go/Rust/.NET), the Kubernetes-native `kpack` platform, the public community registry at registry.buildpacks.io, and an open RFC-driven governance model.
+Cloud Native Buildpacks (CNB) is a CNCF Graduated project (graduated 2026-07-17) that transforms application source code into OCI images that can run on any cloud. The v3 specification — Buildpack API 0.12, Platform API 0.15, and Distribution API 0.3 — defines a modular, vendor-neutral contract between buildpacks, builders, lifecycles, and platforms. CNB consolidates a decade of production experience from Heroku and Pivotal/Cloud Foundry and provides the reference lifecycle (buildpacksio/lifecycle), the `pack` CLI, language bindings (libcnb in Go/Rust/.NET), the Kubernetes-native `kpack` platform, the public community registry at registry.buildpacks.io, and an open RFC-driven governance model.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/buildpacks-io/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/buildpacks-io/refs/heads/main/apis.yml)
+**Areas:** Cloud Native Buildpacks · Container Images · Build Automation · CNCF · Open Source · Developer Tools · OCI · Specification · Supply Chain · Registry
 
-## Scope
+## Buildpacks Io on APIs.io
 
-- **Position:** Producing
+Everything profiled for Buildpacks Io is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/buildpacks-io/](https://apis.io/providers/buildpacks-io/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (8)
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+- [Buildpack Specification](https://apis.io/apis/buildpacks-io/buildpack-spec/) — The Buildpack API (currently 0.12) defines the contract between an individual buildpack and the lifecycle. It specifies the on-disk layout of a buildpack…
+- [Platform Specification](https://apis.io/apis/buildpacks-io/platform-spec/) — The Platform API (currently 0.15) defines how platforms (pack, kpack, Tekton Pipelines, GitLab Auto DevOps, CircleCI Orb, Project Piper) orchestrate the…
+- [Distribution Specification](https://apis.io/apis/buildpacks-io/distribution-spec/) — The Distribution API (currently 0.3) defines how buildpacks, extensions, and builders are packaged as OCI artifacts and published to OCI registries. Covers…
+- [Image Extension Specification](https://apis.io/apis/buildpacks-io/image-extension-spec/) — Image extensions emit Dockerfile snippets applied by the `extender` lifecycle binary to the build and/or run image. Share the buildpack surface…
+- [Project Descriptor (project.toml)](https://apis.io/apis/buildpacks-io/project-descriptor-spec/) — The Project Descriptor extension defines project.toml — the optional app-root file letting developers declare their builder image, include/exclude globs,…
+- [Service Bindings Extension](https://apis.io/apis/buildpacks-io/service-bindings-spec/) — The Service Bindings extension specifies how external service credentials and configuration are surfaced to detect and build under…
+- [buildpacks-io Buildpacks API](https://apis.io/apis/buildpacks-io/buildpacks-io-buildpacks-api/) — Retrieve buildpack version metadata
+- [buildpacks-io Search API](https://apis.io/apis/buildpacks-io/buildpacks-io-search-api/) — Search the buildpack registry by keyword
 
-## APIs
+### Published properties
 
-### Buildpack Specification
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The Buildpack API (currently 0.12) defines the contract between an individual buildpack and the lifecycle. It specifies the on-disk layout of a buildpack (buildpack.toml, bin/detect, bin/build), the build plan provides/requires graph, layer types (launch/build/cache), launch.toml and build.toml outputs, target declarations (os/arch/distros), SBOM emission, and the CNB_* environment variable contract.
+#### MCP servers (1)
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/buildpack.md](https://github.com/buildpacks/spec/blob/main/buildpack.md)
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [buildpacks-registry](https://apis.io/servers/buildpacks-io/buildpacks-registry/)
 
-- Cloud Native Buildpacks
-- Buildpack API
-- Specification
-- CNCF
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/buildpack.md)
-- [Repository](https://github.com/buildpacks/spec)
-- [JSON Schema](json-schema/buildpacks-buildpack-toml-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/buildpacks-build-plan-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/buildpacks-launch-toml-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/buildpacks-io-structure.json)
-- [JSON-LD](json-ld/buildpacks-io-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Buildpacks Io Agentic Access](https://apis.io/agentic-access/buildpacks-io/buildpacks-io-agentic-access/)
 
-### Platform Specification
+#### JSON Schema (4)
 
-The Platform API (currently 0.15) defines how platforms (pack, kpack, Tekton Pipelines, GitLab Auto DevOps, CircleCI Orb, Project Piper) orchestrate the lifecycle. Specifies the lifecycle binary surface (analyzer, detector, restorer, extender, builder, exporter, creator, rebaser, launcher), the TOML files exchanged on disk (group.toml, plan.toml, order.toml, run.toml, metadata.toml, report.toml, analyzed.toml, project-metadata.toml), the standard io.buildpacks.* OCI image labels, and runtime process selection.
+The data models the API reads and writes.
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/platform.md](https://github.com/buildpacks/spec/blob/main/platform.md)
+- [Buildpack Build Plan](https://apis.io/schemas/buildpacks-io/buildpacks-build-plan/)
+- [buildpack.toml](https://apis.io/schemas/buildpacks-io/buildpacks-buildpack-toml/)
+- [launch.toml](https://apis.io/schemas/buildpacks-io/buildpacks-launch-toml/)
+- [project.toml (Project Descriptor)](https://apis.io/schemas/buildpacks-io/buildpacks-project-toml/)
 
-#### Tags
+#### JSON Structure (1)
 
-- Cloud Native Buildpacks
-- Platform API
-- Specification
-- CNCF
+Data models expressed in JSON Structure.
 
-#### Properties
+- [Buildpacks Io Structure](https://apis.io/json-structure/buildpacks-io/buildpacks-io-structure/)
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/platform.md)
-- [Repository](https://github.com/buildpacks/spec)
-- [JSON Structure](json-structure/buildpacks-io-structure.json)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### JSON-LD (1)
 
-### Distribution Specification
+Linked-data contexts for the provider's vocabulary.
 
-The Distribution API (currently 0.3) defines how buildpacks, extensions, and builders are packaged as OCI artifacts and published to OCI registries. Covers labels (io.buildpacks.buildpack.api, io.buildpacks.buildpack.layers), multi-buildpack OCI artifacts, and image extension distribution.
+- [Buildpacks Io Context](https://apis.io/jsonld/buildpacks-io/buildpacks-io-context/)
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/distribution.md](https://github.com/buildpacks/spec/blob/main/distribution.md)
+#### Vocabulary (1)
 
-#### Tags
+The provider's domain terms, defined.
 
-- Cloud Native Buildpacks
-- Distribution
-- OCI
-- CNCF
+- [Cloud Native Buildpacks Vocabulary](https://apis.io/vocabularies/buildpacks-io/buildpacks-io-vocabulary/)
 
-#### Properties
+#### Examples (3)
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/distribution.md)
-- [Repository](https://github.com/buildpacks/spec)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Example requests and responses.
 
-### Image Extension Specification
+- [Moved to /providers/buildpacks-io/](https://apis.io/examples/buildpacks-io/buildpacks-registry-search-example/)
+- [Buildpacks Registry Version Example](https://apis.io/examples/buildpacks-io/buildpacks-registry-version-example/)
+- [Buildpacks Registry Versions List Example](https://apis.io/examples/buildpacks-io/buildpacks-registry-versions-list-example/)
 
-Image extensions emit Dockerfile snippets applied by the `extender` lifecycle binary to the build and/or run image. Share the buildpack surface (extension.toml, bin/detect, bin/generate) but produce Dockerfile output instead of layers — enabling base-image customization (apt packages, native libs) inside a buildpacks workflow.
+#### Collections (3)
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/image_extension.md](https://github.com/buildpacks/spec/blob/main/image_extension.md)
+Postman and Open Collection request collections.
 
-#### Tags
+- [Cloud Native Registry Buildpacks API](https://apis.io/collections/buildpacks-io/open-buildpacks-io-buildpacks-api/)
+- [Cloud Native Registry Buildpacks Search API](https://apis.io/collections/buildpacks-io/open-buildpacks-io-search-api/)
+- [Cloud Native Buildpacks Registry API](https://apis.io/collections/buildpacks-io/open-buildpacks-registry-api/)
 
-- Cloud Native Buildpacks
-- Image Extension
-- Dockerfile
-- Specification
+#### Overlays (2)
 
-#### Properties
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/image_extension.md)
-- [Repository](https://github.com/buildpacks/spec)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Buildpacks Io Buildpacks Api Overlay](https://apis.io/overlays/buildpacks-io/buildpacks-io-buildpacks-api-overlay/)
+- [Buildpacks Io Search Api Overlay](https://apis.io/overlays/buildpacks-io/buildpacks-io-search-api-overlay/)
 
-### Project Descriptor (project.toml)
+#### Governance rules (2)
 
-The Project Descriptor extension defines project.toml — the optional app-root file letting developers declare their builder image, include/exclude globs, buildpack overrides (pre/group/post), and build-time env vars. Read by `pack build` and other platforms before invoking the lifecycle.
+Spectral rulesets for the provider's contracts.
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
+- [Buildpacks Io — jsonschema rules](https://apis.io/rules/buildpacks-io/buildpacks-io-jsonschema-spectral-rules/)
+- [Buildpacks Io API Rules](https://apis.io/rules/buildpacks-io/buildpacks-io-rules/)
 
-#### Tags
+#### Security (3)
 
-- Cloud Native Buildpacks
-- Project Descriptor
-- App Surface
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Buildpacks Io Authentication](https://apis.io/security/buildpacks-io/buildpacks-io-authentication/)
+- [Buildpacks Io Domain Security](https://apis.io/security/buildpacks-io/buildpacks-io-domain-security/)
+- [Buildpacks Io Vulnerability Disclosure](https://apis.io/security/buildpacks-io/buildpacks-io-vulnerability-disclosure/)
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/extensions/project-descriptor.md)
-- [JSON Schema](json-schema/buildpacks-project-toml-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Plans and pricing (1)
 
-### Buildpack Registry Extension
+Published plans, tiers and prices.
 
-The Buildpack Registry extension specifies the community discovery surface — namespaced buildpack identifiers (e.g. paketo-buildpacks/nodejs), the registry-index GitHub repository as the source of truth, and the HTTP API exposed at registry.buildpacks.io/api/v1 (search and per-buildpack version lookup). Backed by the `pack buildpack register/yank/pull` commands.
+- [Buildpacks Io Plans Pricing](https://apis.io/plans/buildpacks-io/buildpacks-io-plans-pricing/)
 
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md](https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md)
+#### Rate limits (1)
 
-#### Tags
+Published request limits.
 
-- Cloud Native Buildpacks
-- Registry
-- Discovery
+- [Buildpacks Io Rate Limits](https://apis.io/rate-limits/buildpacks-io/buildpacks-io-rate-limits/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://github.com/buildpacks/spec/blob/main/extensions/buildpack-registry.md)
-- [Portal](https://registry.buildpacks.io)
-- [Repository](https://github.com/buildpacks/registry-index)
-- [Repository](https://github.com/buildpacks/registry-api)
-- [OpenAPI](openapi/buildpacks-registry-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Example](examples/buildpacks-registry-search-example.json)
-- [Example](examples/buildpacks-registry-version-example.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Service Bindings Extension
-
-The Service Bindings extension specifies how external service credentials and configuration are surfaced to detect and build under $CNB_PLATFORM_DIR/bindings/. Aligns with the Service Binding Specification for Kubernetes and lets buildpacks discover databases, message brokers, and CA bundles without provider coupling.
-
-- **Human URL:** [https://github.com/buildpacks/spec/blob/main/extensions/bindings.md](https://github.com/buildpacks/spec/blob/main/extensions/bindings.md)
-
-#### Tags
-
-- Cloud Native Buildpacks
-- Service Bindings
-- Kubernetes
-
-#### Properties
-
-- [Documentation](https://github.com/buildpacks/spec/blob/main/extensions/bindings.md)
-- [Postman Collection](collections/buildpacks-registry-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buildpacks-registry-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [Portal](https://buildpacks.io)
+- [Website](https://www.buildpacks.io/)
 - [Documentation](https://buildpacks.io/docs/)
-- [Documentation](https://buildpacks.io/docs/concepts/)
-- [Documentation](https://buildpacks.io/docs/for-app-developers/)
-- [Documentation](https://buildpacks.io/docs/for-buildpack-authors/)
-- [Documentation](https://buildpacks.io/docs/for-platform-operators/)
-- [Documentation](https://buildpacks.io/docs/reference/)
-- [Getting Started](https://buildpacks.io/docs/app-journey)
-- [Community](https://buildpacks.io/community/)
-- [Release Notes](https://buildpacks.io/releases/)
+- [Getting started](https://buildpacks.io/docs/app-journey)
+- [API reference](https://github.com/buildpacks/registry-api)
 - [Blog](https://medium.com/buildpacks)
-- [Video Channel](https://www.youtube.com/@buildpacks)
-- [Social Media](https://twitter.com/buildpacks_io)
-- [GitHub Organization](https://github.com/buildpacks)
-- [GitHub Organization](https://github.com/buildpacks-community)
-- [Repository](https://github.com/buildpacks/spec)
-- [Repository](https://github.com/buildpacks/rfcs)
-- [Repository](https://github.com/buildpacks/community)
-- [Governance](https://github.com/buildpacks/community/blob/main/GOVERNANCE.md)
-- [Roadmap](https://github.com/buildpacks/community/blob/main/ROADMAP.md)
-- [Documentation](https://github.com/buildpacks/community/blob/main/TEAMS.md)
-- [Case Studies](https://github.com/buildpacks/community/blob/main/ADOPTERS.md)
-- [Tool](https://github.com/buildpacks/pack)
-- [Tool](https://github.com/buildpacks/lifecycle)
-- [Container Image](https://hub.docker.com/r/buildpacksio/lifecycle)
-- [SDK](https://github.com/buildpacks/libcnb)
-- [SDK](https://github.com/buildpacks/libcnb-rs)
-- [SDK](https://github.com/buildpacks-community/libcnb.net)
-- [Code Examples](https://github.com/buildpacks/samples)
-- [Tool](https://github.com/buildpacks/github-actions)
-- [Tool](https://github.com/buildpacks/pack-orb)
-- [Tool](https://github.com/buildpacks-community/kpack)
-- [Repository](https://github.com/buildpacks/registry-index)
-- [Repository](https://github.com/buildpacks/registry-api)
-- [Portal](https://registry.buildpacks.io)
-- [Analytics](https://buildpacks.devstats.cncf.io/)
-- [Documentation](https://www.cncf.io/projects/buildpacks/)
-- [Mailing List](https://lists.cncf.io/g/cncf-buildpacks)
-- [Forum](https://slack.cncf.io)
-- [Forum](https://github.com/buildpacks/community/discussions)
-- [Forum](https://stackoverflow.com/questions/tagged/buildpack)
-- [Features](undefined)
-- [Vocabulary](vocabulary/buildpacks-io-vocabulary.yml)
-- [Spectral Rules](rules/buildpacks-io-rules.yml)
-- [JSON-LD](json-ld/buildpacks-io-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Security](https://github.com/buildpacks/.github/blob/main/SECURITY.md)
+- [Privacy policy](https://www.linuxfoundation.org/privacy/)
+- [GitHub](https://github.com/buildpacks)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
-**URL:** https://apievangelist.com
+**Kin Score 53.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 57.1 |
+| Contract quality | 62.9 |
+| Contract governance | 45.5 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 18.4 |
+
+**Agent readiness 30.5** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/buildpacks-io/](https://apis.io/providers/buildpacks-io/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Buildpacks Io: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/buildpacks-io/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
